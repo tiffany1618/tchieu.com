@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {Nav, Navbar, NavDropdown} from "react-bootstrap";
 import links from "../res/links";
 import github_logo from "../res/images/github_logo.png";
 import linkedin_logo from "../res/images/linkedin_logo.png";
