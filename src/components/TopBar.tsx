@@ -10,20 +10,20 @@ class TopBar extends React.Component {
     render() {
         return (
             <Navbar bg="dark" variant="dark" expand="lg">
-                <Navbar.Brand href="#home">Tiffany C. Chieu</Navbar.Brand>
+                <Navbar.Brand href="/">Tiffany C. Chieu</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                         <NavDropdown title="Projects" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#projects/imgproc-rs">Image Processing Library</NavDropdown.Item>
-                            <NavDropdown.Item href="#projects/path-follower">TI-RSLK Path Follower</NavDropdown.Item>
+                            <NavDropdown.Item href="/projects/imgproc">imgproc-rs</NavDropdown.Item>
+                            <NavDropdown.Item href="/projects/rslk">TI-RSLK Path Follower</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#projects/veritas">Veritas</NavDropdown.Item>
-                            <NavDropdown.Item href="#projects/vulcanet">VulcaNet</NavDropdown.Item>
+                            <NavDropdown.Item href="/projects/vulcanet">VulcaNet</NavDropdown.Item>
+                            <NavDropdown.Item href="/projects/veritas">Veritas</NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link href={resume} target="_blank">Resume</Nav.Link>
                     </Nav>
-                    <Navbar.Brand href={links.github}>
+                    <Navbar.Brand href={links.github} target={"_blank"}>
                         <img
                             src={github_logo}
                             width="40"
@@ -31,7 +31,7 @@ class TopBar extends React.Component {
                             alt="Github logo"
                         />
                     </Navbar.Brand>
-                    <Navbar.Brand href={links.linkedin}>
+                    <Navbar.Brand href={links.linkedin} target="_blank">
                         <img
                             src={linkedin_logo}
                             width="50"
@@ -39,10 +39,6 @@ class TopBar extends React.Component {
                             alt="Linkedin logo"
                         />
                     </Navbar.Brand>
-                    {/*<Form inline>*/}
-                    {/*    <FormControl type="text" placeholder="Search" className="mr-sm-2" />*/}
-                    {/*    <Button variant="outline-success">Search</Button>*/}
-                    {/*</Form>*/}
                 </Navbar.Collapse>
             </Navbar>
         )

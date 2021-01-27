@@ -1,0 +1,21 @@
+html, body, #root, .App {
+    background: #484d55;
+    height: 100%;
+}
+
+.title-text {
+    color: #d2d2d2;
+}
+
+.main-text {
+    color: #d2d2d2;
+    font-size: larger;
+}
+
+hr {
+    background-color: #d2d2d2;
+}
+
+a:link {
+    color: #7abaff;
+}
