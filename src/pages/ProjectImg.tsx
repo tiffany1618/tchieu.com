@@ -9,7 +9,7 @@ class ProjectImg extends React.Component {
                 <Container className={"pt-4"}>
                     <Row className={"pl-4"}>
                         <h3 className={"title-text"}>
-                            <a href={links.github_imgproc} target={"_blank"}>imgproc-rs</a>: A Rust Image Processing Library
+                            <a href={links.github_imgproc} target={"_blank"} rel={"noreferrer"}>imgproc-rs</a>: A Rust Image Processing Library
                         </h3>
                     </Row>
                     <hr />
