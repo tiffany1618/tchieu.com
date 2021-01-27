@@ -9,7 +9,7 @@ import resume from "../res/resume.pdf";
 class TopBar extends React.Component {
     render() {
         return (
-            <Navbar bg="light" variant="light" expand="lg">
+            <Navbar bg="dark" variant="dark" expand="lg">
                 <Navbar.Brand href="#home">Tiffany C. Chieu</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
