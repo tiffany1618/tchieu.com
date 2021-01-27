@@ -23,7 +23,7 @@ class Home extends React.Component {
                                 Computer Science and Engineering. My interests include computer vision and image
                                 processing, embedded systems, and CubeSat software development. When I'm not programming,
                                 you can find me hiking, reading, or playing the piano. Check out my projects above or
-                                take a look at my <a href={links.github} target={"_blank"}>github</a> to see more!
+                                take a look at my <a href={links.github} target={"_blank"} rel={"noreferrer"}>github</a> to see more!
                             </p>
                         </Col>
                     </Row>

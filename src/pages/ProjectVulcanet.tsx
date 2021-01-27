@@ -9,7 +9,7 @@ class ProjectVulcanet extends React.Component {
                 <Container className={"pt-4"}>
                     <Row className={"pl-4"}>
                         <h3 className={"title-text"}>
-                            <a href={links.github_vulcanet} target={"_blank"}>VulcaNet</a>: A Low-cost Wildfire Detection System
+                            <a href={links.github_vulcanet} target={"_blank"} rel={"noreferrer"}>VulcaNet</a>: A Low-cost Wildfire Detection System
                         </h3>
                     </Row>
                     <hr />
@@ -35,7 +35,7 @@ class ProjectVulcanet extends React.Component {
                             </p>
                             <p className={"main-text"}>
                                 For more information, take a look at this project's
-                                <a href={links.devpost_vulcanet} target={"_blank"}> Devpost</a>.
+                                <a href={links.devpost_vulcanet} target={"_blank"} rel={"noreferrer"}> Devpost</a>.
                             </p>
                         </Col>
                     </Row>

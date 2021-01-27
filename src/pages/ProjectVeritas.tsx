@@ -9,7 +9,7 @@ class ProjectVeritas extends React.Component {
                 <Container className={"pt-4"}>
                     <Row className={"pl-4"}>
                         <h3 className={"title-text"}>
-                            <a href={links.github_veritas} target={"_blank"}>Veritas</a>: Verifiable, Authentic Online News
+                            <a href={links.github_veritas} target={"_blank"} rel={"noreferrer"}>Veritas</a>: Verifiable, Authentic Online News
                         </h3>
                     </Row>
                     <hr />
@@ -38,7 +38,7 @@ class ProjectVeritas extends React.Component {
                             </p>
                             <p className={"main-text"}>
                                 For more information, take a look at this project's
-                                <a href={links.devpost_veritas} target={"_blank"}> Devpost</a>.
+                                <a href={links.devpost_veritas} target={"_blank"} rel={"noreferrer"}> Devpost</a>.
                             </p>
                         </Col>
                     </Row>
