@@ -1,0 +1,64 @@
+body {
+    background-color: #484d55;
+    height: 100%;
+    width: 850px;
+    margin: auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.title-text {
+    color: #e8e8e8;
+}
+
+.main-text {
+    color: #e8e8e8;
+    font-size: larger;
+}
+
+hr {
+    background-color: #e8e8e8;
+}
+
+a:link {
+    color: #7abaff;
+}
+
+a:hover {
+    color: #2196F3;
+}
+
+a:visited {
+    color: #7abaff;
+}
+
+.sidenav {
+  width: auto;
+  position: fixed;
+  z-index: 1;
+  top: 20px;
+  left: 10px;
+  background: #343a40;
+  overflow-x: hidden;
+  padding: 8px 0;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: large;
+  color: #7abaff;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #2196F3;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
