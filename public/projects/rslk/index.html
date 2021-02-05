@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Tiffany C. Chieu's website" />
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <title>Tiffany C. Chieu</title>
+  </head>
+  <header>
+    
+    <div class="topnav">
+        
+            <a href="/">Home</a>
+        
+        <div class="dropdown">
+            <button class="dropbtn">Projects</button>
+            <div class="dropdown-content">
+                
+                    
+                        <a href="/projects/imgproc/">imgproc-rs</a>
+                    
+                        <a href="/projects/rslk/">TI-RSLK Path Follower</a>
+                    
+                        <a href="/projects/vulcanet/">VulcaNet</a>
+                    
+                
+            </div>
+        </div>
+        
+            
+                <a href="/books/">Books</a>
+            
+                <a href="/resume/">Resume</a>
+            
+        
+        <div class="logos">
+            <a href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
+                <img src="/images/logos/github_logo.png" alt="Github logo" width="auto" height="30" />
+            </a>
+            <a href="https://www.linkedin.com/in/tiffany-chieu-79bb24143/" target="_blank" rel="noreferrer">
+                <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" width="auto" height="33" />
+            </a>
+        </div>
+    </div>
+
+    <div>
+    <h2 class="title-text">
+        
+            TI-RSLK Path Follower
+        
+        
+    </h2>
+</div>
+<hr />
+  </header>
+  <body>
+    
+      <div>
+    <h4 class="title-text">ECE 3 Final Project</h4>
+</div>
+<hr />
+<div>
+    <p class="main-text">
+        The goal of this project was to develop a path-following car based on the TI-RSLK car platform using a
+        series of IR sensors and a PID controller. Code for the path-following system can be found
+        <a href="https://github.com/tiffany1618/Arduino-Path-Follower" target="_blank" rel="noreferrer">here</a>,
+        and code for the basic Arduino PID controller that was used can be found
+        <a href="https://github.com/tiffany1618/Arduino-PID-Controller" target="_blank" rel="noreferrer">here</a>.
+    </p>
+    <p class="main-text">
+        The path-following system began with an auto-calibration routine in which the car was placed over a white
+        area, followed by a black area, from which minimum and maximum values were calibrated for each sensor. To
+        calculate error values from the aggregated sensor data, initial readings were taken at various distances from
+        the path, as shown below:
+    </p>
+    <div class="center">
+        <img src="/images/rslk/avg_data.png" alt="Raw Data Chart" width="500" height="auto"/>
+    </div>
+    <p class="main-text">
+        This data was then normalized:
+    </p>
+    <div class="center">
+        <img src="/images/rslk/norm_data.png" alt="Raw Data Chart" width="500" height="auto"/>
+    </div>
+    <p class="main-text">
+        The normalized data was then combined via three different weighting schemes to produce a single error
+        value corresponding to the distance between the center of the car and the center of the track:
+    </p>
+    <div class="center">
+        <img src="/images/rslk/fusion.png" alt="Raw Data Chart" width="500" height="auto"/>
+    </div>
+    <p class="main-text">
+        For the actual path-following system, the weighting scheme shown above in green was selected, and only a PD
+        controller was used. During each iteration of the PD loop, its output was added or subtracted from a base
+        wheel speed for the left and right wheels of the car to cause the car to turn towards the path (although
+        percentage-based speed compensation would have perhaps worked better and produced more consistent
+        performance across high and low speeds).
+    </p>
+</div>
+    
+  </body>
+</html>
