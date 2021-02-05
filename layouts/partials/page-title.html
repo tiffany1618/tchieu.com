@@ -1,0 +1,13 @@
+<div>
+    <h2 class="title-text">
+        {{ if (isset .Params "title_url") }}
+            <a href="{{ .Params.title_url }}" target="_blank" rel="noreferrer">{{ .Title }}</a>
+        {{ else }}
+            {{ .Title }}
+        {{ end }}
+        {{ if (isset .Params "title_descrip") }}
+            : {{ .Params.title_descrip }}
+        {{ end }}
+    </h2>
+</div>
+<hr />
