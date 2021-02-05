@@ -6,8 +6,8 @@
         <div class="dropdown">
             <button class="dropbtn">Projects</button>
             <div class="dropdown-content">
-                {{ range  sort .projects_menu "Name" }}
-                    {{ range .Children }}
+                {{ range .projects_menu }}
+                    {{ range .Children.ByWeight }}
                         <a href="{{ .URL }}">{{ .Name }}</a>
                     {{ end }}
                 {{ end }}
