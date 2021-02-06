@@ -2,3 +2,22 @@ baseURL = "https://tchieu.com"
 languageCode = "en"
 title = "Tiffany C. Chieu"
 enableRobotsTXT = "true"
+
+[menu]
+    [[menu.oss_menu]]
+        name = "Math"
+        url = "/oss/math/"
+
+    [[menu.oss_menu]]
+        name = "Physics"
+        url = "/oss/physics/"
+
+    [[menu.oss_menu]]
+        name = "Discrete Mathematics"
+        url = "/oss/math/discrete-mathematics"
+        parent = "Math"
+
+    [[menu.oss_menu]]
+        name = "University Physics"
+        url = "/oss/physics/university-physics/"
+        parent = "Physics"

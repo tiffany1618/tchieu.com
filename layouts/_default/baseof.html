@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Tiffany C. Chieu's website" />
     <link rel="stylesheet" href="/styles/styles.css" />
+    {{ if .Params.katex }}
+      {{ partial "katex.html" . }}
+    {{ end }}
     <title>{{ .Site.Title }}</title>
   </head>
   <header>
-    {{ partial "top-nav.html" . }}
-    {{ partial "page-title.html" . }}
+    {{ partial "header.html" . }}
   </header>
   <body>
     {{ block "main" . }}

@@ -60,6 +60,8 @@ a:visited {
 @media screen and (max-height: 450px) {
     .topnav {padding-top: 15px;}
     .topnav a {font-size: 18px;}
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
 }
 
 .dropdown {
@@ -112,4 +114,46 @@ a:visited {
     margin-left: auto;
     margin-right: auto;
     width: 50%;
+}
+
+.sidenav {
+    height: 100%;
+    width: auto;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background: #343a40;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav a, .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #e8e8e8;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+.sidenav a:hover, .dropdown-btn:hover {
+    color: #818181;
+}
+
+.active {
+    background-color: #818181;
+    color: white;
+}
+
+.dropdown-container {
+    display: none;
+    background-color: #343a40;
+    padding-left: 8px;
+    font-size: small;
 }
