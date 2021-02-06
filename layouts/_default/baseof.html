@@ -9,11 +9,13 @@
   </head>
   <header>
     {{ partial "top-nav.html" . }}
-    {{ partial "page-title.html" . }}
   </header>
   <body>
-    {{ block "main" . }}
-      {{ .Content }}
-    {{ end }}
+    <div class="main-content">
+      {{ partial "page-title.html" . }}
+      {{ block "main" . }}
+        {{ .Content }}
+      {{ end }}
+    </div>
   </body>
 </html>
