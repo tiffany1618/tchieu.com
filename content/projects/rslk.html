@@ -8,40 +8,40 @@ menu:
         weight: 0
 ---
 <div>
-    <h4 class="title-text">ECE 3 Final Project</h4>
+    <p class="subtitle is-6 has-text-centered">ECE 3 Final Project</p>
 </div>
 <hr />
 <div>
-    <p class="main-text">
+    <p>
         The goal of this project was to develop a path-following car based on the TI-RSLK car platform using a
         series of IR sensors and a PID controller. Code for the path-following system can be found
         <a href="https://github.com/tiffany1618/Arduino-Path-Follower" target="_blank" rel="noreferrer">here</a>,
         and code for the basic Arduino PID controller that was used can be found
         <a href="https://github.com/tiffany1618/Arduino-PID-Controller" target="_blank" rel="noreferrer">here</a>.
     </p>
-    <p class="main-text">
+    <p>
         The path-following system began with an auto-calibration routine in which the car was placed over a white
         area, followed by a black area, from which minimum and maximum values were calibrated for each sensor. To
         calculate error values from the aggregated sensor data, initial readings were taken at various distances from
         the path, as shown below:
     </p>
-    <div class="center">
+    <div>
         <img src="/images/rslk/avg_data.png" alt="Raw Data Chart" width="500" height="auto"/>
     </div>
-    <p class="main-text">
+    <p>
         This data was then normalized:
     </p>
-    <div class="center">
+    <div>
         <img src="/images/rslk/norm_data.png" alt="Raw Data Chart" width="500" height="auto"/>
     </div>
-    <p class="main-text">
+    <p>
         The normalized data was then combined via three different weighting schemes to produce a single error
         value corresponding to the distance between the center of the car and the center of the track:
     </p>
-    <div class="center">
+    <div>
         <img src="/images/rslk/fusion.png" alt="Raw Data Chart" width="500" height="auto"/>
     </div>
-    <p class="main-text">
+    <p>
         For the actual path-following system, the weighting scheme shown above in green was selected, and only a PD
         controller was used. During each iteration of the PD loop, its output was added or subtracted from a base
         wheel speed for the left and right wheels of the car to cause the car to turn towards the path (although

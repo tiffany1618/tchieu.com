@@ -1,6 +1,5 @@
 ---
 title: "imgproc-rs"
-title_url: "https://github.com/tiffany1618/imgproc-rs"
 title_descrip: "A Rust image processing library"
 menu:
     projects_menu:
@@ -10,16 +9,48 @@ menu:
         weight: -100
 ---
 <div>
-    <h4 class="title-text"><a href="https://crates.io/crates/imgproc-rs" target="_blank" rel="noreferrer">crates.io</a></h4>
-    <h4 class="title-text"> <a href="https://docs.rs/imgproc-rs" target="_blank" rel="noreferrer">Full documentation</a></h4>
+    <nav class="columns">
+        <div class="column is-half is-offset-one-quarter">
+            <div class="columns">
+                <div class="column">
+                    <p class="subtitle is-6 has-text-centered">
+                        <a href="https://github.com/tiffany1618/imgproc-rs" target="_blank" rel="noreferrer">Repository</a>
+                    </p>
+                </div>
+                <div class="column">
+                    <p class="subtitle is-6 has-text-centered">
+                        <a href="https://crates.io/crates/imgproc-rs" target="_blank" rel="noreferrer">Crates.io</a>
+                    </p>
+                </div>
+                <div class="column">
+                    <p class="subtitle is-6 has-text-centered">
+                        <a href="https://docs.rs/imgproc-rs" target="_blank" rel="noreferrer">Documentation</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </nav>
 </div>
 <hr />
 <div>
-    <p class="main-text">
+    <p>
         I wrote this basic image processing library mainly for the purpose of learning about image processing
-        techniques and learning the Rust programming language. It provides a flexible container for storing and
-        manipulating different image formats and channel data types, and supports color space conversions, tone
-        adjustments, linear filtering through convolution, and basic affine transformations. Check out the links above
-        to learn more!
+        techniques and learning the Rust programming language.
+        It provides a flexible container for storing and manipulating different image formats and channel
+        data types, and supports the following types of image operations:
+    </p>
+    <ul>
+        <li>Color space conversions between sRGB, HSV, CIE XYZ, and CIELAB</li>
+        <li>Brightness, contrast, and saturation adjustments</li>
+        <li>Gamma correction and histogram equalization</li>
+        <li>Linear filtering through convolution</li>
+        <li>Nonlinear filters such as the median, bilateral, and alpha-trimmed mean filters</li>
+        <li>Basic affine transformations</li>
+        <li>Morphological operations</li>
+    </ul>
+    <p>
+        In addition, this library supports multithreading for some transformation functions and most filter
+        functions via <a href="https://github.com/rayon-rs/rayon" target="_blank" rel="noreferrer">rayon</a>.
+        To learn more, check out the links above!
     </p>
 </div>

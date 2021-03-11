@@ -1,13 +1,15 @@
 <div>
-    <h2 class="title-text">
+    <p class="title has-text-centered">
         {{ if (isset .Params "title_url") }}
             <a href="{{ .Params.title_url }}" target="_blank" rel="noreferrer">{{ .Title }}</a>
         {{ else }}
             {{ .Title }}
         {{ end }}
+    </p>
+    <p class="subtitle is-5 has-text-centered">
         {{ if (isset .Params "title_descrip") }}
-            : {{ .Params.title_descrip }}
+            {{ .Params.title_descrip }}
         {{ end }}
-    </h2>
+    </p>
 </div>
 <hr />
