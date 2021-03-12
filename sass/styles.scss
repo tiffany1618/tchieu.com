@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+@import "../../node_modules/bulma/sass/utilities/initial-variables.sass";
+@import "../../node_modules/bulma/sass/utilities/functions.sass";
+
+// Colors
+$black: #343a40;
+$grey: #484d55;
+$grey-light: #e8e8e8;
+$blue: #7abaff;
+
+// Variables
+$primary: $black;
+$link: $blue;
+
+// Fonts
+$family-primary: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
+@import "../../node_modules/bulma/bulma.sass";
+
+html, body {
+  min-height: 100vh;
+}
+
+a:hover {
+  color: #2196f3;
+}
+
+a.navbar-item:hover, .navbar-link:hover {
+  background-color: $black !important;
+  color: $blue !important;
+}
+
+.main-content {
+  width: 75%;
+  max-width: 1000px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.main-text {
+  color: $grey-light;
+  font-size: $size-5;
+  line-height: 30px;
+}

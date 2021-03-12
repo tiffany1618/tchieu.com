@@ -4,75 +4,122 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Tiffany C. Chieu's website" />
-    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Tiffany C. Chieu</title>
   </head>
   <header>
     
-    <div class="topnav">
-        
-            <a href="/">Home</a>
-        
-        <div class="dropdown">
-            <button class="dropbtn">Projects</button>
-            <div class="dropdown-content">
+    <nav class="navbar has-background-black" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a role="button" class="navbar-burger has-text-grey-light" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbarMain" class="navbar-menu">
+            <div class="navbar-start">
+                
+                    <a class="navbar-item has-text-grey-light" href="/">Home</a>
+                
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link has-text-grey-light">Projects</a>
+                    <div class="navbar-dropdown has-background-black">
+                        
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/imgproc/">imgproc-rs</a>
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/rslk/">TI-RSLK Path Follower</a>
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/vulcanet/">VulcaNet</a>
+                            
+                        
+                    </div>
+                </div>
                 
                     
-                        <a href="/projects/imgproc/">imgproc-rs</a>
+                        <a class="navbar-item has-text-grey-light" href="/books/">Books</a>
                     
-                        <a href="/projects/rslk/">TI-RSLK Path Follower</a>
-                    
-                        <a href="/projects/vulcanet/">VulcaNet</a>
+                        <a class="navbar-item has-text-grey-light" href="/resume/">Resume</a>
                     
                 
             </div>
+            <div class="navbar-end">
+                <a class="navbar-item" href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/github_logo.png" alt="Github logo" />
+                </a>
+                <a class="navbar-item" href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" />
+                </a>
+            </div>
         </div>
-        
-            
-                <a href="/books/">Books</a>
-            
-                <a href="/resume/">Resume</a>
-            
-        
-        <div class="logos">
-            <a href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
-                <img src="/images/logos/github_logo.png" alt="Github logo" width="auto" height="30" />
-            </a>
-            <a href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
-                <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" width="auto" height="33" />
-            </a>
-        </div>
-    </div>
+    </nav>
 
   </header>
-  <body>
+  <body class="has-background-grey">
     <div class="main-content">
-      <div>
-    <h2 class="title-text">
+      <div class="pt-5">
+    <p class="title has-text-centered has-text-grey-light">
         
-            <a href="https://github.com/tiffany1618/imgproc-rs" target="_blank" rel="noreferrer">imgproc-rs</a>
+            imgproc-rs
         
-        
-            : A Rust image processing library
-        
-    </h2>
+    </p>
+    
+        <p class="subtitle is-5 has-text-centered has-text-grey-light">
+            A Rust image processing library
+        </p>
+    
 </div>
 <hr />
       
-        <div>
-    <h4 class="title-text"><a href="https://crates.io/crates/imgproc-rs" target="_blank" rel="noreferrer">crates.io</a></h4>
-    <h4 class="title-text"> <a href="https://docs.rs/imgproc-rs" target="_blank" rel="noreferrer">Full documentation</a></h4>
+        <div class="content has-text-grey-light pb-5">
+          <div>
+    <nav class="columns">
+        <div class="column is-half is-offset-one-quarter">
+            <div class="columns">
+                <div class="column">
+                    <p class="subtitle is-6 has-text-centered">
+                        <a href="https://github.com/tiffany1618/imgproc-rs" target="_blank" rel="noreferrer">Repository</a>
+                    </p>
+                </div>
+                <div class="column">
+                    <p class="subtitle is-6 has-text-centered">
+                        <a href="https://crates.io/crates/imgproc-rs" target="_blank" rel="noreferrer">Crates.io</a>
+                    </p>
+                </div>
+                <div class="column">
+                    <p class="subtitle is-6 has-text-centered">
+                        <a href="https://docs.rs/imgproc-rs" target="_blank" rel="noreferrer">Documentation</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </nav>
 </div>
 <hr />
-<div>
-    <p class="main-text">
+<div class="main-text">
+    <p>
         I wrote this basic image processing library mainly for the purpose of learning about image processing
-        techniques and learning the Rust programming language. It provides a flexible container for storing and
-        manipulating different image formats and channel data types, and supports color space conversions, tone
-        adjustments, linear filtering through convolution, and basic affine transformations. Check out the links above
-        to learn more!
+        techniques and learning the Rust programming language.
+        It provides a flexible container for storing and manipulating different image formats and channel
+        data types, and supports the following types of image operations:
+    </p>
+    <ul>
+        <li>Color space conversions between sRGB, HSV, CIE XYZ, and CIELAB</li>
+        <li>Brightness, contrast, and saturation adjustments</li>
+        <li>Gamma correction and histogram equalization</li>
+        <li>Linear filtering through convolution</li>
+        <li>Nonlinear filters such as the median, bilateral, and alpha-trimmed mean filters</li>
+        <li>Basic affine transformations</li>
+        <li>Morphological operations</li>
+    </ul>
+    <p>
+        In addition, this library supports multithreading for some transformation functions and most filter
+        functions via <a href="https://github.com/rayon-rs/rayon" target="_blank" rel="noreferrer">rayon</a>.
+        To learn more, check out the links above!
     </p>
 </div>
+        </div>
       
     </div>
   </body>

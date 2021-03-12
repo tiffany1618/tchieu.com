@@ -4,94 +4,106 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Tiffany C. Chieu's website" />
-    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Tiffany C. Chieu</title>
   </head>
   <header>
     
-    <div class="topnav">
-        
-            <a href="/">Home</a>
-        
-        <div class="dropdown">
-            <button class="dropbtn">Projects</button>
-            <div class="dropdown-content">
+    <nav class="navbar has-background-black" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a role="button" class="navbar-burger has-text-grey-light" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbarMain" class="navbar-menu">
+            <div class="navbar-start">
+                
+                    <a class="navbar-item has-text-grey-light" href="/">Home</a>
+                
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link has-text-grey-light">Projects</a>
+                    <div class="navbar-dropdown has-background-black">
+                        
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/imgproc/">imgproc-rs</a>
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/rslk/">TI-RSLK Path Follower</a>
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/vulcanet/">VulcaNet</a>
+                            
+                        
+                    </div>
+                </div>
                 
                     
-                        <a href="/projects/imgproc/">imgproc-rs</a>
+                        <a class="navbar-item has-text-grey-light" href="/books/">Books</a>
                     
-                        <a href="/projects/rslk/">TI-RSLK Path Follower</a>
-                    
-                        <a href="/projects/vulcanet/">VulcaNet</a>
+                        <a class="navbar-item has-text-grey-light" href="/resume/">Resume</a>
                     
                 
             </div>
+            <div class="navbar-end">
+                <a class="navbar-item" href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/github_logo.png" alt="Github logo" />
+                </a>
+                <a class="navbar-item" href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" />
+                </a>
+            </div>
         </div>
-        
-            
-                <a href="/books/">Books</a>
-            
-                <a href="/resume/">Resume</a>
-            
-        
-        <div class="logos">
-            <a href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
-                <img src="/images/logos/github_logo.png" alt="Github logo" width="auto" height="30" />
-            </a>
-            <a href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
-                <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" width="auto" height="33" />
-            </a>
-        </div>
-    </div>
+    </nav>
 
   </header>
-  <body>
+  <body class="has-background-grey">
     <div class="main-content">
-      <div>
-    <h2 class="title-text">
+      <div class="pt-5">
+    <p class="title has-text-centered has-text-grey-light">
         
             TI-RSLK Path Follower
         
-        
-    </h2>
+    </p>
+    
 </div>
 <hr />
       
-        <div>
-    <h4 class="title-text">ECE 3 Final Project</h4>
+        <div class="content has-text-grey-light pb-5">
+          <div>
+    <p class="subtitle is-6 has-text-centered has-text-grey-light">ECE 3 Final Project</p>
 </div>
 <hr />
-<div>
-    <p class="main-text">
+<div class="main-text">
+    <p>
         The goal of this project was to develop a path-following car based on the TI-RSLK car platform using a
         series of IR sensors and a PID controller. Code for the path-following system can be found
         <a href="https://github.com/tiffany1618/Arduino-Path-Follower" target="_blank" rel="noreferrer">here</a>,
         and code for the basic Arduino PID controller that was used can be found
         <a href="https://github.com/tiffany1618/Arduino-PID-Controller" target="_blank" rel="noreferrer">here</a>.
     </p>
-    <p class="main-text">
+    <p>
         The path-following system began with an auto-calibration routine in which the car was placed over a white
         area, followed by a black area, from which minimum and maximum values were calibrated for each sensor. To
         calculate error values from the aggregated sensor data, initial readings were taken at various distances from
         the path, as shown below:
     </p>
-    <div class="center">
+    <div class="has-text-centered">
         <img src="/images/rslk/avg_data.png" alt="Raw Data Chart" width="500" height="auto"/>
     </div>
-    <p class="main-text">
+    <p>
         This data was then normalized:
     </p>
-    <div class="center">
+    <div class="has-text-centered">
         <img src="/images/rslk/norm_data.png" alt="Raw Data Chart" width="500" height="auto"/>
     </div>
-    <p class="main-text">
+    <p>
         The normalized data was then combined via three different weighting schemes to produce a single error
         value corresponding to the distance between the center of the car and the center of the track:
     </p>
-    <div class="center">
+    <div class="has-text-centered">
         <img src="/images/rslk/fusion.png" alt="Raw Data Chart" width="500" height="auto"/>
     </div>
-    <p class="main-text">
+    <p>
         For the actual path-following system, the weighting scheme shown above in green was selected, and only a PD
         controller was used. During each iteration of the PD loop, its output was added or subtracted from a base
         wheel speed for the left and right wheels of the car to cause the car to turn towards the path (although
@@ -99,6 +111,7 @@
         performance across high and low speeds).
     </p>
 </div>
+        </div>
       
     </div>
   </body>

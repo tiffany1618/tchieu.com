@@ -5,84 +5,99 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Tiffany C. Chieu's website" />
-    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Tiffany C. Chieu</title>
   </head>
   <header>
     
-    <div class="topnav">
-        
-            <a href="/">Home</a>
-        
-        <div class="dropdown">
-            <button class="dropbtn">Projects</button>
-            <div class="dropdown-content">
+    <nav class="navbar has-background-black" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a role="button" class="navbar-burger has-text-grey-light" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbarMain" class="navbar-menu">
+            <div class="navbar-start">
+                
+                    <a class="navbar-item has-text-grey-light" href="/">Home</a>
+                
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link has-text-grey-light">Projects</a>
+                    <div class="navbar-dropdown has-background-black">
+                        
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/imgproc/">imgproc-rs</a>
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/rslk/">TI-RSLK Path Follower</a>
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/vulcanet/">VulcaNet</a>
+                            
+                        
+                    </div>
+                </div>
                 
                     
-                        <a href="/projects/imgproc/">imgproc-rs</a>
+                        <a class="navbar-item has-text-grey-light" href="/books/">Books</a>
                     
-                        <a href="/projects/rslk/">TI-RSLK Path Follower</a>
-                    
-                        <a href="/projects/vulcanet/">VulcaNet</a>
+                        <a class="navbar-item has-text-grey-light" href="/resume/">Resume</a>
                     
                 
             </div>
+            <div class="navbar-end">
+                <a class="navbar-item" href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/github_logo.png" alt="Github logo" />
+                </a>
+                <a class="navbar-item" href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" />
+                </a>
+            </div>
         </div>
-        
-            
-                <a href="/books/">Books</a>
-            
-                <a href="/resume/">Resume</a>
-            
-        
-        <div class="logos">
-            <a href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
-                <img src="/images/logos/github_logo.png" alt="Github logo" width="auto" height="30" />
-            </a>
-            <a href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
-                <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" width="auto" height="33" />
-            </a>
-        </div>
-    </div>
+    </nav>
 
   </header>
-  <body>
+  <body class="has-background-grey">
     <div class="main-content">
-      <div>
-    <h2 class="title-text">
+      <div class="pt-5">
+    <p class="title has-text-centered has-text-grey-light">
         
             About
         
-        
-    </h2>
+    </p>
+    
 </div>
 <hr />
       
-        <div>
-    <div class="float-left">
+        <div class="content has-text-grey-light pb-5">
+          <div class="columns">
+    <div class="column is-narrow">
         <img src="/images/profile.png" alt="profile pic" width="200" height="auto"/>
     </div>
-    <p class="main-text">
-        Hi there! My name is Tiffany Chieu. I'm a student at UCLA majoring in Computer Science and
-        Engineering. My interests include computer vision and image processing, embedded systems, and CubeSat software
-        development. When I'm not programming, you can find me hiking, reading, or playing the piano.
-    </p>
-    <p class="main-text">
-        Currently, I'm the software lead on Project Reach at UCLA's
-        <a href="https://bruinspace.com/" target="_blank" rel="noreferrer">Bruin Spacecraft Group</a>. Our goal is to
-        develop amateur rocket payloads using the CubeSat form factor while introducing students to the field of satellite
-        and aerospace engineering. We are in the process of developing the
-        <a href="https://github.com/Bruin-Spacecraft-Group/SPARTAN" target="_blank" rel="noreferrer">SPARTAN Flight
-        Software</a> to serve as a modular platform for CubeSat flight systems. SPARTAN provides a sensor driver
-        library built with Intel's
-        <a href="https://github.com/eclipse/mraa" target="_blank" rel="noreferrer">Eclipse Mraa Library</a>, in
-        addition to an extensible data packet framework to streamline sensor data collection.
-    </p>
-    <p class="main-text">
-        Feel free to check out my projects above, or take a look at my
-        <a href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">github</a> to see more!
-    </p>
+    <div class="column main-text">
+        <p>
+            Hi there! My name is Tiffany Chieu. I'm a student at UCLA majoring in Computer Science and
+            Engineering. My interests include computer vision and image processing, embedded systems, and CubeSat software
+            development. When I'm not programming, you can find me hiking, reading, or playing the piano.
+        </p>
+        <p>
+            Currently, I'm the software lead on Project Reach at UCLA's
+            <a href="https://bruinspace.com/" target="_blank" rel="noreferrer">Bruin Spacecraft Group</a>. Our goal is to
+            develop amateur rocket payloads using the CubeSat form factor while introducing students to the field of satellite
+            and aerospace engineering. We are in the process of developing the
+            <a href="https://github.com/Bruin-Spacecraft-Group/SPARTAN" target="_blank" rel="noreferrer">SPARTAN Flight
+                Software</a> to serve as a modular platform for CubeSat flight systems. SPARTAN provides a sensor driver
+            library built with Intel's
+            <a href="https://github.com/eclipse/mraa" target="_blank" rel="noreferrer">Eclipse Mraa Library</a>, in
+            addition to an extensible data packet framework to streamline sensor data collection.
+        </p>
+        <p>
+            Feel free to check out my projects above, or take a look at my
+            <a href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">github</a> to see more!
+        </p>
+    </div>
 </div>
+        </div>
       
     </div>
   </body>
