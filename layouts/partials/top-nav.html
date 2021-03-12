@@ -1,38 +1,41 @@
 {{ with .Site.Menus }}
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-menu">
+    <nav class="navbar has-background-black" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a role="button" class="navbar-burger has-text-grey-light" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbarMain" class="navbar-menu">
             <div class="navbar-start">
                 {{ range .main_menu }}
-                    <a class="navbar-item" href="{{ .URL }}">{{ .Name }}</a>
+                    <a class="navbar-item has-text-grey-light" href="{{ .URL }}">{{ .Name }}</a>
                 {{ end }}
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">Projects</a>
-                    <div class="navbar-dropdown">
+                    <a class="navbar-link has-text-grey-light">Projects</a>
+                    <div class="navbar-dropdown has-background-black">
                         {{ range .projects_menu }}
                             {{ range .Children.ByWeight }}
-                                <a class="navbar-item" href="{{ .URL }}">{{ .Name }}</a>
+                                <a class="navbar-item has-text-grey-light" href="{{ .URL }}">{{ .Name }}</a>
                             {{ end }}
                         {{ end }}
                     </div>
                 </div>
                 {{ range .main_menu }}
                     {{ range .Children }}
-                        <a class="navbar-item" href="{{ .URL }}">{{ .Name }}</a>
+                        <a class="navbar-item has-text-grey-light" href="{{ .URL }}">{{ .Name }}</a>
                     {{ end }}
                 {{ end }}
             </div>
-        </div>
-        <div class="navbar-end">
-            <a class="navbar-item" href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
-                <figure class="image is-35x35">
+            <div class="navbar-end">
+                <a class="navbar-item" href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
                     <img src="/images/logos/github_logo.png" alt="Github logo" />
-                </figure>
-            </a>
-            <a class="navbar-item" href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
-                <figure class="image is-35x35">
+                </a>
+                <a class="navbar-item" href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
                     <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" />
-                </figure>
-            </a>
+                </a>
+            </div>
         </div>
     </nav>
 {{ end }}

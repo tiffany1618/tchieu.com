@@ -8,10 +8,10 @@ menu:
         weight: 0
 ---
 <div>
-    <p class="subtitle is-6 has-text-centered">ECE 3 Final Project</p>
+    <p class="subtitle is-6 has-text-centered has-text-grey-light">ECE 3 Final Project</p>
 </div>
 <hr />
-<div>
+<div class="main-text">
     <p>
         The goal of this project was to develop a path-following car based on the TI-RSLK car platform using a
         series of IR sensors and a PID controller. Code for the path-following system can be found
@@ -25,20 +25,20 @@ menu:
         calculate error values from the aggregated sensor data, initial readings were taken at various distances from
         the path, as shown below:
     </p>
-    <div>
+    <div class="has-text-centered">
         <img src="/images/rslk/avg_data.png" alt="Raw Data Chart" width="500" height="auto"/>
     </div>
     <p>
         This data was then normalized:
     </p>
-    <div>
+    <div class="has-text-centered">
         <img src="/images/rslk/norm_data.png" alt="Raw Data Chart" width="500" height="auto"/>
     </div>
     <p>
         The normalized data was then combined via three different weighting schemes to produce a single error
         value corresponding to the distance between the center of the car and the center of the track:
     </p>
-    <div>
+    <div class="has-text-centered">
         <img src="/images/rslk/fusion.png" alt="Raw Data Chart" width="500" height="auto"/>
     </div>
     <p>

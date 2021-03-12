@@ -4,17 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Tiffany C. Chieu's website" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>{{ .Site.Title }}</title>
   </head>
   <header>
     {{ partial "top-nav.html" . }}
   </header>
-  <body>
-    <div class="container is-max-desktop">
+  <body class="has-background-grey">
+    <div class="main-content">
       {{ partial "page-title.html" . }}
       {{ block "main" . }}
-        <div class="content">
+        <div class="content has-text-grey-light pb-5">
           {{ .Content }}
         </div>
       {{ end }}

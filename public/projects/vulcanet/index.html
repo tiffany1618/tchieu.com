@@ -4,79 +4,109 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Tiffany C. Chieu's website" />
-    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Tiffany C. Chieu</title>
   </head>
   <header>
     
-    <div class="topnav">
-        
-            <a href="/">Home</a>
-        
-        <div class="dropdown">
-            <button class="dropbtn">Projects</button>
-            <div class="dropdown-content">
+    <nav class="navbar has-background-black" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a role="button" class="navbar-burger has-text-grey-light" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbarMain" class="navbar-menu">
+            <div class="navbar-start">
+                
+                    <a class="navbar-item has-text-grey-light" href="/">Home</a>
+                
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link has-text-grey-light">Projects</a>
+                    <div class="navbar-dropdown has-background-black">
+                        
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/imgproc/">imgproc-rs</a>
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/rslk/">TI-RSLK Path Follower</a>
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/vulcanet/">VulcaNet</a>
+                            
+                        
+                    </div>
+                </div>
                 
                     
-                        <a href="/projects/imgproc/">imgproc-rs</a>
+                        <a class="navbar-item has-text-grey-light" href="/books/">Books</a>
                     
-                        <a href="/projects/rslk/">TI-RSLK Path Follower</a>
-                    
-                        <a href="/projects/vulcanet/">VulcaNet</a>
+                        <a class="navbar-item has-text-grey-light" href="/resume/">Resume</a>
                     
                 
             </div>
+            <div class="navbar-end">
+                <a class="navbar-item" href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/github_logo.png" alt="Github logo" />
+                </a>
+                <a class="navbar-item" href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" />
+                </a>
+            </div>
         </div>
-        
-            
-                <a href="/books/">Books</a>
-            
-                <a href="/resume/">Resume</a>
-            
-        
-        <div class="logos">
-            <a href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
-                <img src="/images/logos/github_logo.png" alt="Github logo" width="auto" height="30" />
-            </a>
-            <a href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
-                <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" width="auto" height="33" />
-            </a>
-        </div>
-    </div>
+    </nav>
 
   </header>
-  <body>
+  <body class="has-background-grey">
     <div class="main-content">
-      <div>
-    <h2 class="title-text">
+      <div class="pt-5">
+    <p class="title has-text-centered has-text-grey-light">
         
-            <a href="https://github.com/DarthGeek01/VulcaNet" target="_blank" rel="noreferrer">VulcaNet</a>
+            VulcaNet
         
-        
-            : A Low-cost Wildfire Detection System
-        
-    </h2>
+    </p>
+    
+        <p class="subtitle is-5 has-text-centered has-text-grey-light">
+            A Low-cost Wildfire Detection System
+        </p>
+    
 </div>
 <hr />
       
-        <div>
-    <h4 class="title-text">Created by: Tiffany Chieu, Nashir Janmohamed, Justin Lin, and Ariel Young</h4>
-    <h4 class="title-text">Awards: Best IoT that Incorporates Multiple Nodes, San Diego Hackathon 2019</h4>
+        <div class="content has-text-grey-light pb-5">
+          <div>
+    <p class="subtitle is-6 has-text-centered has-text-grey-light">Created by: Tiffany Chieu, Nashir Janmohamed, Justin Lin, and Ariel Young</p>
+    <p class="subtitle is-6 has-text-centered has-text-grey-light">Awards: Best IoT that Incorporates Multiple Nodes, San Diego Hackathon 2019</p>
+    <nav class="columns">
+        <div class="column is-half is-offset-one-quarter">
+            <div class="columns">
+                <div class="column">
+                    <p class="subtitle is-6 has-text-centered">
+                        <a href="https://github.com/DarthGeek01/VulcaNet" target="_blank" rel="noreferrer">Repository</a>
+                    </p>
+                </div>
+                <div class="column">
+                    <p class="subtitle is-6 has-text-centered">
+                        <a href="https://devpost.com/software/vulcanet-wildfire-detection-network" target={"_blank"} rel={"noreferrer"}> Devpost</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </nav>
 </div>
 <hr />
-<div>
-    <p class="main-text">
+<div class="main-text">
+    <p>
         The goal of this project is to provide a reliable, low-cost early detection system for
         wildfires. VulcaNet is an extensible IoT mesh network that aggregates environmental
         sensor data from various locations within a given area, such as ambient temperature,
         humidity, barometric pressure, and carbon dioxide air content. Based on these parameters,
         the system can predict the likeliness and detect the presence of wildfires in the area.
     </p>
-    <p class="main-text">
-        For more information, check out this project's
-        <a href="https://devpost.com/software/vulcanet-wildfire-detection-network" target={"_blank"} rel={"noreferrer"}> Devpost</a>.
+    <p>
+        For more information, check out the links above.
     </p>
 </div>
+        </div>
       
     </div>
   </body>

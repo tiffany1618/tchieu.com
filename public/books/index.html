@@ -4,61 +4,73 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Tiffany C. Chieu's website" />
-    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Tiffany C. Chieu</title>
   </head>
   <header>
     
-    <div class="topnav">
-        
-            <a href="/">Home</a>
-        
-        <div class="dropdown">
-            <button class="dropbtn">Projects</button>
-            <div class="dropdown-content">
+    <nav class="navbar has-background-black" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a role="button" class="navbar-burger has-text-grey-light" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbarMain" class="navbar-menu">
+            <div class="navbar-start">
+                
+                    <a class="navbar-item has-text-grey-light" href="/">Home</a>
+                
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link has-text-grey-light">Projects</a>
+                    <div class="navbar-dropdown has-background-black">
+                        
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/imgproc/">imgproc-rs</a>
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/rslk/">TI-RSLK Path Follower</a>
+                            
+                                <a class="navbar-item has-text-grey-light" href="/projects/vulcanet/">VulcaNet</a>
+                            
+                        
+                    </div>
+                </div>
                 
                     
-                        <a href="/projects/imgproc/">imgproc-rs</a>
+                        <a class="navbar-item has-text-grey-light" href="/books/">Books</a>
                     
-                        <a href="/projects/rslk/">TI-RSLK Path Follower</a>
-                    
-                        <a href="/projects/vulcanet/">VulcaNet</a>
+                        <a class="navbar-item has-text-grey-light" href="/resume/">Resume</a>
                     
                 
             </div>
+            <div class="navbar-end">
+                <a class="navbar-item" href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/github_logo.png" alt="Github logo" />
+                </a>
+                <a class="navbar-item" href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" />
+                </a>
+            </div>
         </div>
-        
-            
-                <a href="/books/">Books</a>
-            
-                <a href="/resume/">Resume</a>
-            
-        
-        <div class="logos">
-            <a href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
-                <img src="/images/logos/github_logo.png" alt="Github logo" width="auto" height="30" />
-            </a>
-            <a href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
-                <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" width="auto" height="33" />
-            </a>
-        </div>
-    </div>
+    </nav>
 
   </header>
-  <body>
+  <body class="has-background-grey">
     <div class="main-content">
-      <div>
-    <h2 class="title-text">
+      <div class="pt-5">
+    <p class="title has-text-centered has-text-grey-light">
         
             Recommended Books
         
-        
-    </h2>
+    </p>
+    
 </div>
 <hr />
       
-        <div>
-    <h4 class="title-text">Fiction</h4>
+        <div class="content has-text-grey-light pb-5">
+          <div>
+    <h4 class="has-text-grey-light">Fiction</h4>
     <ul class="main-text">
         <li><em>The Hitchhiker's Guide to the Galaxy</em>, by Douglas Adams</li>
         <li><em>Ender's Game</em>, by Orson Scott Card</li>
@@ -74,7 +86,7 @@
 </div>
 <hr />
 <div>
-    <h4 class="title-text">Non-fiction</h4>
+    <h4 class="has-text-grey-light">Non-fiction</h4>
     <ul class="main-text">
         <li><em>The Evolution of Physics</em>, by Albert Einstein and Leopold Infeld</li>
         <li><em>In Search of Schrodinger's Cat</em>, by John Gribbin</li>
@@ -83,14 +95,15 @@
         <li><em>Dark Sun</em>, by Richard Rhodes</li>
     </ul>
 </div>
-<hr />
-<div>
-    <h4 class="title-text">Image Processing</h4>
-    <ul class="main-text">
-        <li><em>Vision</em>, by David Marr</li>
-        <li><em>Computer Vision: Algorithms and Applications</em>, by Richard Szeliski</li>
-    </ul>
-</div>
+<!--<hr />-->
+<!--<div>-->
+<!--&lt;!&ndash;    <h4 class="title-text">Image Processing</h4>&ndash;&gt;-->
+<!--&lt;!&ndash;    <ul class="main-text">&ndash;&gt;-->
+<!--&lt;!&ndash;        <li><em>Vision</em>, by David Marr</li>&ndash;&gt;-->
+<!--&lt;!&ndash;        <li><em>Computer Vision: Algorithms and Applications</em>, by Richard Szeliski</li>&ndash;&gt;-->
+<!--&lt;!&ndash;    </ul>&ndash;&gt;-->
+<!--</div>-->
+        </div>
       
     </div>
   </body>
