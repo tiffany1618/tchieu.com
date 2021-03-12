@@ -18,7 +18,7 @@
                 <span aria-hidden="true"></span>
             </a>
         </div>
-        <div id="navbarMain" class="navbar-menu">
+        <div id="navbarMain" class="navbar-menu has-background-black">
             <div class="navbar-start">
                 
                     <a class="navbar-item has-text-grey-light" href="/">Home</a>
@@ -56,6 +56,34 @@
         </div>
     </nav>
 
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    
+   const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+    
+    if ($navbarBurgers.length > 0) {
+
+      
+      $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+
+          
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+
+          
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+
+        });
+      });
+    }
+
+  });
+</script>
   </header>
   <body class="has-background-grey">
     <div class="main-content">
