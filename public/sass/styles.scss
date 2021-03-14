@@ -6,6 +6,7 @@
 // Colors
 $black: #343a40;
 $grey: #484d55;
+$grey-dark: #3a3e44;
 $grey-light: #e8e8e8;
 $blue: #7abaff;
 
@@ -26,7 +27,7 @@ a:hover {
   color: #2196f3;
 }
 
-a.navbar-item:hover, .navbar-link:hover {
+a.navbar-item:hover {
   background-color: $black !important;
   color: $blue !important;
 }
@@ -43,4 +44,10 @@ a.navbar-item:hover, .navbar-link:hover {
   color: $grey-light;
   font-size: $size-5;
   line-height: 30px;
+}
+
+.simple-box {
+  width: 100%;
+  border: 1px solid #676a6f;
+  border-radius: 7px;
 }

@@ -12,16 +12,6 @@
                 {{ range .main_menu }}
                     <a class="navbar-item has-text-grey-light" href="{{ .URL }}">{{ .Name }}</a>
                 {{ end }}
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link has-text-grey-light">Projects</a>
-                    <div class="navbar-dropdown has-background-black">
-                        {{ range .projects_menu }}
-                            {{ range .Children.ByWeight }}
-                                <a class="navbar-item has-text-grey-light" href="{{ .URL }}">{{ .Name }}</a>
-                            {{ end }}
-                        {{ end }}
-                    </div>
-                </div>
                 {{ range .main_menu }}
                     {{ range .Children }}
                         <a class="navbar-item has-text-grey-light" href="{{ .URL }}">{{ .Name }}</a>
