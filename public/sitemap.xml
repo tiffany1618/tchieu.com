@@ -4,6 +4,17 @@
   
   <url>
     <loc>https://tchieu.com/</loc>
+    <lastmod>2021-03-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tchieu.com/blog/</loc>
+    <lastmod>2021-03-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tchieu.com/blog/2021/03/simple-optimizations-in-rust/</loc>
+    <lastmod>2021-03-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
