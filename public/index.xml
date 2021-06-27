@@ -5,15 +5,14 @@
     <link>https://tchieu.com/</link>
     <description>Recent content in About on Tiffany C. Chieu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <lastBuildDate>Wed, 17 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://tchieu.com/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language><atom:link href="https://tchieu.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Simple Optimizations in Rust</title>
-      <link>https://tchieu.com/blog/2021/03/simple-optimizations-in-rust/</link>
-      <pubDate>Wed, 17 Mar 2021 00:00:00 +0000</pubDate>
+      <title>Books List</title>
+      <link>https://tchieu.com/books/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://tchieu.com/blog/2021/03/simple-optimizations-in-rust/</guid>
-      <description>hi</description>
+      <guid>https://tchieu.com/books/</guid>
+      <description>Non-fiction The Idea Factory, by John Gertner In Search of Schrodinger&#39;s Cat, by John Gribbin A Brief History of Time, by Stephen Hawking Crystal Fire, by Michael Riordan and Lillian Hoddeson The Soul of a New Machine, by Tracy Kidder Dark Sun, by Richard Rhodes    Fiction The Hitchhiker&#39;s Guide to the Galaxy, by Douglas Adams Ender&#39;s Game, by Orson Scott Card All the Light We Cannot See, by Anthony Doerr Les Miserables, by Victor Hugo Flowers for Algernon, by Daniel Keyes The Art of Racing in the Rain, by Garth Stein The Martian, by Andy Weir Night, by Elie Weisel The War of the Worlds, by H.</description>
     </item>
     
     <item>
@@ -23,15 +22,6 @@
       
       <guid>https://tchieu.com/projects/imgproc/</guid>
       <description>Repository  Crates.io  Documentation       I wrote this basic image processing library mainly for the purpose of learning about image processing techniques and learning the Rust programming language. It provides a flexible container for storing and manipulating different image formats and channel data types, and supports the following types of image operations:  Color space conversions between sRGB, HSV, CIE XYZ, and CIELAB Brightness, contrast, and saturation adjustments Gamma correction and histogram equalization Linear filtering through convolution Nonlinear filters such as the median, bilateral, and alpha-trimmed mean filters Basic affine transformations Morphological operations   In addition, this library supports multithreading for some transformation functions and most filter functions via rayon.</description>
-    </item>
-    
-    <item>
-      <title>Recommended Books</title>
-      <link>https://tchieu.com/books/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://tchieu.com/books/</guid>
-      <description> Fiction The Hitchhiker&#39;s Guide to the Galaxy, by Douglas Adams Ender&#39;s Game, by Orson Scott Card All the Light We Cannot See, by Anthony Doerr Les Miserables, by Victor Hugo Flowers for Algernon, by Daniel Keyes The Art of Racing in the Rain, by Garth Stein The Martian, by Andy Weir Night, by Elie Weisel The War of the Worlds, by H. G. Wells Mrs. Dalloway, by Virginia Woolf    Non-fiction The Evolution of Physics, by Albert Einstein and Leopold Infeld In Search of Schrodinger&#39;s Cat, by John Gribbin A Brief History of Time, by Stephen Hawking Crystal Fire, by Michael Riordan and Lillian Hoddeson Dark Sun, by Richard Rhodes   -- -- Image Processing&amp;ndash;&amp;gt;-- &amp;ndash;&amp;gt;-- Vision, by David Marr&amp;ndash;&amp;gt;-- Computer Vision: Algorithms and Applications, by Richard Szeliski&amp;ndash;&amp;gt;-- &amp;ndash;&amp;gt;-- --</description>
     </item>
     
     <item>
