@@ -5,7 +5,17 @@
     <link>https://tchieu.com/</link>
     <description>Recent content in About on Tiffany C. Chieu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://tchieu.com/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Wed, 17 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://tchieu.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Simple Optimizations in Rust</title>
+      <link>https://tchieu.com/blog/2021/03/simple-optimizations-in-rust/</link>
+      <pubDate>Wed, 17 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://tchieu.com/blog/2021/03/simple-optimizations-in-rust/</guid>
+      <description>hi</description>
+    </item>
+    
     <item>
       <title>imgproc-rs</title>
       <link>https://tchieu.com/projects/imgproc/</link>
