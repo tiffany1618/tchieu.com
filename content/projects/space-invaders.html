@@ -1,6 +1,6 @@
 ---
 title: "space-invaders"
-title_descrip: "Arcade game on an FPGA"
+title_descrip: "A simple video game on an FPGA"
 github: "https://github.com/tiffany1618/space-invaders"
 ---
 <div>
@@ -29,6 +29,10 @@ github: "https://github.com/tiffany1618/space-invaders"
         <li>A 5x11 grid of invaders that continuously moves left and right across the middle of the screen</li>
         <li>3 missiles, which the invaders somewhat randomly shoot down towards the player</li>
     </ul>
+    <div class="has-text-centered">
+        <img src="/images/space-invaders/game_initial.jpg" alt="Initial game state" width="500" height="auto" />
+        <p>Initial game state</p>
+    </div>
     <p>
         The gameplay is as follows:
     </p>
@@ -38,6 +42,10 @@ github: "https://github.com/tiffany1618/space-invaders"
         <li>The player's score is increased by one each time an invader is shot down. The player wins the game when
         no more invaders remain.</li>
     </ul>
+    <div class="has-text-centered">
+        <img src="/images/space-invaders/game_mid.jpg" alt="Game during play" width="500" height="auto" />
+        <p>Game during play</p>
+    </div>
     <p>
         And the game is implemented as follows:
     </p>
@@ -68,6 +76,7 @@ github: "https://github.com/tiffany1618/space-invaders"
     </p>
     <div class="has-text-centered">
         <img src="/images/space-invaders/vga_timings.png" alt="VGA timing diagram" width="500" height="auto" />
+        <p>VGA signal timings</p>
     </div>
     <p>
         This module outputs the horizontal and vertical sync signals, as well as a frame signal that indicates
@@ -83,11 +92,27 @@ github: "https://github.com/tiffany1618/space-invaders"
         and the output drawing signal is set to high if the sprite is currently being drawn (state = DRAW) and the
         bit at the current address is high. This is implemented as a finite-state machine, which can be seen below.
     </p>
+    <div class="has-text-centered">
+        <img src="/images/space-invaders/draw_sprite_diagram.png" alt="Sprite state diagram" width="500" height="auto" />
+        <p>State diagram for sprite drawing</p>
+    </div>
+    <p>
+        Signals:
+    </p>
+    <ul>
+        <li>start: Signals when to start the sprite drawing</li>
+        <li>pixel_x: Current horizontal screen coordinate</li>
+        <li>spr_x: Top left x coordinate of the sprite</li>
+        <li>x: Horizontal address within sprite bitmap</li>
+        <li>y: Vertical address within sprite bitmap</li>
+    </ul>
     <h6 class="has-text-grey-light">Draw Sprite Row Module</h6>
     <p>
         This module draws a row of 11 sprites from a single bitmap that can be scaled vertically and horizontally by the
         same constant, and allows for individual sprites in the row to be visible or hidden. Its logic is very similar
-        to the previous modules, and its state diagram can be seen below.
+        to the previous modules, with the addition of a START_SPRITE state between AWAIT_POS and DRAW, which increments
+        a counter indicating the position of the sprite currently being drawn, and checks to see if the next sprite
+        should be drawn or hidden.
     </p>
     <h6 class="has-text-grey-light">VGA Controller Module</h6>
     <p>
@@ -97,4 +122,19 @@ github: "https://github.com/tiffany1618/space-invaders"
         player and the missiles or the invaders and the laser by using the drawing signals (if two objects are
         being drawn at the same time, then they have collided).
     </p>
+    <h4 class="has-text-grey-light">Button Debouncing</h4>
+
+    <div class="has-text-centered">
+        <img src="/images/space-invaders/debounce_high.png" alt="Debouncing a button press" width="500" height="auto" />
+        <p>Debouncing a button press</p>
+    </div>
+    <div class="has-text-centered">
+        <img src="/images/space-invaders/debounce_low.png" alt="Debouncing a button de-press" width="500" height="auto" />
+        <p>Debouncing a button de-press</p>
+    </div>
+    <p>
+        Code for the debouncing logic can be found
+        <a href="https://github.com/tiffany1618/space-invaders/blob/main/src/util/debouncer.v" target="_blank" rel="noreferrer">here</a>.
+    </p>
+    <h4 class="has-text-grey-light">Seven-segment Display</h4>
 </div>
