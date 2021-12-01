@@ -1,6 +1,5 @@
 {{ define "main" }}
-    <div class="container">
-    <div class="tile is-ancestor mt-5">
+    <div class="columns is-multiline">
         {{ range .Pages }}
             <div class="tile is-parent is-4">
                 <div class="tile is-child simple-box p-3">
@@ -28,6 +27,5 @@
                 </div>
             </div>
         {{ end }}
-    </div>
     </div>
 {{ end }}

@@ -1,0 +1,100 @@
+---
+title: "space-invaders"
+title_descrip: "Arcade game on an FPGA"
+github: "https://github.com/tiffany1618/space-invaders"
+---
+<div>
+    <nav class="columns">
+        <div class="column is-half is-offset-one-quarter">
+            <div class="columns">
+                <div class="column">
+                    <p class="subtitle is-6 has-text-centered">
+                        <a href="https://github.com/tiffany1618/space-invaders" target="_blank" rel="noreferrer">Repository</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<hr />
+<div class="main-text">
+    <p>
+        For this project, I implemented a version of the arcade game Space Invaders in Verilog using a
+        <a href="https://digilent.com/reference/_media/nexys:nexys3:nexys3_rm.pdf" target="_blank"
+           rel="noreferrer">Nexys3 Spartan 6 FPGA board</a>. The game consists of:
+    </p>
+    <ul>
+        <li>A player, which can be moved left and right across the bottom of the screen</li>
+        <li>A laser, which can be shot upwards from the player's laser base</li>
+        <li>A 5x11 grid of invaders that continuously moves left and right across the middle of the screen</li>
+        <li>3 missiles, which the invaders somewhat randomly shoot down towards the player</li>
+    </ul>
+    <p>
+        The gameplay is as follows:
+    </p>
+    <ul>
+        <li>The player starts with 3 lives. Each time the player is hit by a missile, one life is lost. The player
+        loses when no more lives remain.</li>
+        <li>The player's score is increased by one each time an invader is shot down. The player wins the game when
+        no more invaders remain.</li>
+    </ul>
+    <p>
+        And the game is implemented as follows:
+    </p>
+    <ul>
+        <li>Left and right buttons for player movement</li>
+        <li>Shoot button for the player's laser</li>
+        <li>Reset button that returns the game to its initial state at any point</li>
+        <li>3 seven-segment displays for the player's lives and score count</li>
+        <li>VGA output to display the game on an external monitor</li>
+    </ul>
+    <h4 class="has-text-grey-light">VGA Implementation</h4>
+    <p>
+        The VGA display has a resolution of 640x480 pixels and is driven by a 25 MHz pixel clock, giving it
+        a refresh rate of approximately 60 Hz. It supports 8-bit color. Much of the display code is based on
+        <a href="https://projectf.io/posts/hardware-sprites/" target="_blank" rel="noreferrer">this tutorial</a>.
+        My implementation for the following modules can be found
+        <a href="https://github.com/tiffany1618/space-invaders/tree/main/src/vga" target="_blank" rel="noreferrer">here</a>.
+    </p>
+    <h6 class="has-text-grey-light">VGA Timings Module</h6>
+    <p>
+        Below is a diagram of the display timings and corresponding screen coordinates. We are using
+        signed coordinates here so that the blanking interval can occur before the active drawing area, but
+        the first pixel of the active drawing area will still be (0,0) so we don’t need to worry about offsetting
+        all of our other coordinates. We want the blanking interval to occur before the active drawing area
+        so that any setup for drawing sprites at the edge of the screen, which needs to occur before the first
+        sprite pixel is drawn, can still occur during the same frame as the frame the sprite is actually drawn
+        in.
+    </p>
+    <div class="has-text-centered">
+        <img src="/images/space-invaders/vga_timings.png" alt="VGA timing diagram" width="500" height="auto" />
+    </div>
+    <p>
+        This module outputs the horizontal and vertical sync signals, as well as a frame signal that indicates
+        the start of the blanking interval, when we can animate our sprites and check our collision signals. It also
+        outputs a data enable signal that is high during the active drawing period, and the current horizontal
+        and vertical screen coordinates.
+    </p>
+    <h6 class="has-text-grey-light">Draw Sprite Module</h6>
+    <p>
+        This module draws a single sprite from a bitmap that can be scaled vertically and horizontally by the
+        same constant. The sprite is represented as a 2d array, which can be loaded from a bitmap.
+        Horizontal and vertical variables are maintained for addresses of the sprite pixel currently being drawn,
+        and the output drawing signal is set to high if the sprite is currently being drawn (state = DRAW) and the
+        bit at the current address is high. This is implemented as a finite-state machine, which can be seen below.
+    </p>
+    <h6 class="has-text-grey-light">Draw Sprite Row Module</h6>
+    <p>
+        This module draws a row of 11 sprites from a single bitmap that can be scaled vertically and horizontally by the
+        same constant, and allows for individual sprites in the row to be visible or hidden. Its logic is very similar
+        to the previous modules, and its state diagram can be seen below.
+    </p>
+    <h6 class="has-text-grey-light">VGA Controller Module</h6>
+    <p>
+        This module receives the positions of everything that needs to be drawn on the screen and handles
+        drawing them or starting the correct drawing modules, outputting the correct 8-bit color pixel. This
+        includes blinking the player when it has been hit by a missile. It also detects collisions between the
+        player and the missiles or the invaders and the laser by using the drawing signals (if two objects are
+        being drawn at the same time, then they have collided).
+    </p>
+</div>
