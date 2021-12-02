@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Tiffany C. Chieu's website" />
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Tiffany C. Chieu</title>
+  </head>
+  <header>
+    
+    <nav class="navbar has-background-black" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a role="button" class="navbar-burger has-text-grey-light" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbarMain" class="navbar-menu has-background-black">
+            <div class="navbar-start">
+                
+                    <a class="navbar-item has-text-grey-light" href="/">Home</a>
+                
+                
+                    
+                        <a class="navbar-item has-text-grey-light" href="/projects/">Projects</a>
+                    
+                        <a class="navbar-item has-text-grey-light" href="/books/">Books</a>
+                    
+                        <a class="navbar-item has-text-grey-light" href="/resume/">Resume</a>
+                    
+                
+            </div>
+            <div class="navbar-end">
+                <a class="navbar-item" href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/github_logo.png" alt="Github logo" />
+                </a>
+                <a class="navbar-item" href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" />
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    
+   const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+    
+    if ($navbarBurgers.length > 0) {
+
+      
+      $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+
+          
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+
+          
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+
+        });
+      });
+    }
+
+  });
+</script>
+  </header>
+  <body class="has-background-grey">
+    <div class="main-content">
+      <div class="pt-5">
+    <p class="title has-text-centered has-text-grey-light">
+        
+            space-invaders
+        
+    </p>
+    
+        <p class="subtitle is-5 has-text-centered has-text-grey-light">
+            A simple video game on an FPGA
+        </p>
+    
+</div>
+<hr />
+      
+        <div class="content has-text-grey-light pb-5">
+          <div>
+    <nav class="columns">
+        <div class="column is-half is-offset-one-quarter">
+            <div class="columns">
+                <div class="column">
+                    <p class="subtitle is-6 has-text-centered">
+                        <a href="https://github.com/tiffany1618/space-invaders" target="_blank" rel="noreferrer">Repository</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<hr />
+<div class="main-text">
+    <p>
+        For this project, I implemented a version of the arcade game Space Invaders in Verilog using a
+        <a href="https://digilent.com/reference/_media/nexys:nexys3:nexys3_rm.pdf" target="_blank"
+           rel="noreferrer">Nexys3 Spartan 6 FPGA board</a>. The game consists of:
+    </p>
+    <ul>
+        <li>A player, which can be moved left and right across the bottom of the screen</li>
+        <li>A laser, which can be shot upwards from the player's laser base</li>
+        <li>A 5x11 grid of invaders that continuously moves left and right across the middle of the screen</li>
+        <li>3 missiles, which the invaders somewhat randomly shoot down towards the player</li>
+    </ul>
+    <div class="has-text-centered">
+        <img src="/images/space-invaders/game_initial.jpg" alt="Initial game state" width="500" height="auto" />
+        <p>Initial game state</p>
+    </div>
+    <p>
+        The gameplay is as follows:
+    </p>
+    <ul>
+        <li>The player starts with 3 lives. Each time the player is hit by a missile, one life is lost. The player
+        loses when no more lives remain.</li>
+        <li>The player's score is increased by one each time an invader is shot down. The player wins the game when
+        no more invaders remain.</li>
+    </ul>
+    <div class="has-text-centered">
+        <img src="/images/space-invaders/game_mid.jpg" alt="Game during play" width="500" height="auto" />
+        <p>Game during play</p>
+    </div>
+    <p>
+        And the game uses the following hardware:
+    </p>
+    <ul>
+        <li>Left and right buttons for player movement</li>
+        <li>Shoot button for the player's laser</li>
+        <li>Reset button that returns the game to its initial state at any point</li>
+        <li>3 seven-segment displays for the player's lives and score count</li>
+        <li>VGA output to display the game on an external monitor</li>
+    </ul>
+    <h4 class="has-text-grey-light">VGA Implementation</h4>
+    <p>
+        The VGA display has a resolution of 640x480 pixels and is driven by a 25 MHz pixel clock, giving it
+        a refresh rate of approximately 60 Hz. It supports 8-bit color. Much of the display code is based on
+        <a href="https://projectf.io/posts/hardware-sprites/" target="_blank" rel="noreferrer">this tutorial</a>.
+        My implementation for the following modules can be found
+        <a href="https://github.com/tiffany1618/space-invaders/tree/main/src/vga" target="_blank" rel="noreferrer">here</a>.
+    </p>
+    <h6 class="has-text-grey-light">VGA Timings Module</h6>
+    <p>
+        Below is a diagram of the display timings and corresponding screen coordinates.
+        Signed coordinates are used here so that the blanking interval can occur before the active drawing area, but
+        the first pixel of the active drawing area will still be (0,0) so we don’t need to worry about offsetting
+        all of the other coordinates. We want the blanking interval to occur before the active drawing area
+        so that any setup for drawing sprites at the edge of the screen, which needs to occur before the first
+        sprite pixel is drawn, can still occur during the same frame as the frame the sprite is actually drawn
+        in.
+    </p>
+    <div class="has-text-centered">
+        <img src="/images/space-invaders/vga_timings.png" alt="VGA timing diagram" width="500" height="auto" />
+        <p>VGA signal timings</p>
+    </div>
+    <p>
+        This module outputs the horizontal and vertical sync signals, as well as a frame signal that indicates
+        the start of the blanking interval, when we can move our sprites (so that we don't run into screen tearing)
+        and check the collision signals (e.g. for keeping track of the player's lives and score, so that collisions
+        aren't counted more than once). It also
+        outputs a data enable signal that is high during the active drawing period, and the current horizontal
+        and vertical screen coordinates.
+    </p>
+    <h6 class="has-text-grey-light">Draw Sprite Module</h6>
+    <p>
+        This module draws a single sprite from a bitmap that can be scaled vertically and horizontally by the
+        same constant. The sprite is represented as a 2d array, which is loaded from the bitmap. Horizontal and
+        vertical variables are maintained for addresses within the sprite bitmap of the sprite pixel currently being drawn,
+        and the output drawing signal is set to high if the sprite is currently being drawn (state = DRAW) and the
+        bit at the current address is high. This is implemented as a finite-state machine, which can be seen below.
+    </p>
+    <div class="has-text-centered">
+        <img src="/images/space-invaders/draw_sprite_diagram.png" alt="Sprite state diagram" width="500" height="auto" />
+        <p>State diagram for sprite drawing</p>
+    </div>
+    <p>
+        Signals:
+    </p>
+    <ul>
+        <li>start: Signals when to start the sprite drawing</li>
+        <li>pixel_x: Current horizontal screen coordinate</li>
+        <li>spr_x: Top left x coordinate of the sprite</li>
+        <li>x: Horizontal address within sprite bitmap</li>
+        <li>y: Vertical address within sprite bitmap</li>
+    </ul>
+    <h6 class="has-text-grey-light">Draw Sprite Row Module</h6>
+    <p>
+        This module draws a row of 11 sprites from a single bitmap that can be scaled vertically and horizontally by the
+        same constant, and allows for individual sprites in the row to be visible or hidden. Its logic is very similar
+        to the previous module, with the addition of a START_SPRITE state between AWAIT_POS and DRAW, which increments
+        a counter indicating the position of the sprite currently being drawn, and checks to see if the next sprite
+        should be drawn or hidden.
+    </p>
+    <h6 class="has-text-grey-light">VGA Controller Module</h6>
+    <p>
+        This module receives the positions of everything that needs to be drawn on the screen and handles
+        drawing them or starting the correct drawing modules, outputting the correct 8-bit color pixel. It also blinks
+        the player 3 times when it has been hit by a missile, and detects collisions between the
+        player and the missiles or the invaders and the laser by setting the corresponding collision signal
+        when the relevant drawing signals are high at the same time.
+    </p>
+    <h4 class="has-text-grey-light">Button Debouncing</h4>
+    <p>
+        Physical switches and buttons can cause small vibrations when they are pressed or flipped, resulting in small
+        voltage fluctuations that can appear as multiple button presses within a very short amount of time,
+        rather than as a single press. To solve this issue, we can sample the button state at a slower frequency,
+        and only report the button as being pressed when it can maintain the same state for some period of
+        time longer than the period of an average voltage fluctuation.
+    </p>
+    <p>
+        To implement button debouncing, I used a 100 Hz clock to sample the button signals.
+        These samples are accumulated in a 3-bit register for each button, so that each clock cycle, a new sample
+        is added to the left-hand side of the register and the other bits are shifted right by one bit, discarding the least
+        significant bit. The 2 rightmost bits are used to detect
+        a change in button state (0 then 1 means the button went from off to on, 1 then 0
+        means the button went from on to off). The third bit is for debouncing - since the sampling frequency is
+        100 Hz, the signal is required to stay high or low for at least 10 ms before
+        we can conclude that the button is actually on or off, and that the high/low signal is
+        not just the result of a fluctuation.
+    </p>
+    <div class="has-text-centered">
+        <p>Waveforms from Xilinx ISE Simulator:</p>
+        <img src="/images/space-invaders/debounce_high.png" alt="Debouncing a button press" width="700" height="auto" />
+        <p>Debouncing a button press</p>
+        <img src="/images/space-invaders/debounce_low.png" alt="Debouncing a button de-press" width="700" height="auto" />
+        <p>Debouncing a button de-press</p>
+    </div>
+    <p>
+        Above, clk_debouncer is a 100 Hz clock, btn_right is the signal from the button we are debouncing, step_right
+        is the 3-bit sampling register, and right is the debounced button signal.
+        Code for this debouncing logic can be found
+        <a href="https://github.com/tiffany1618/space-invaders/blob/main/src/util/debouncer.v" target="_blank" rel="noreferrer">here</a>.
+    </p>
+</div>
+        </div>
+      
+    </div>
+  </body>
+</html>

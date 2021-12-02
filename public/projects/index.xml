@@ -16,6 +16,15 @@
     </item>
     
     <item>
+      <title>space-invaders</title>
+      <link>https://tchieu.com/projects/space-invaders/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tchieu.com/projects/space-invaders/</guid>
+      <description>Repository       For this project, I implemented a version of the arcade game Space Invaders in Verilog using a Nexys3 Spartan 6 FPGA board. The game consists of:  A player, which can be moved left and right across the bottom of the screen A laser, which can be shot upwards from the player&#39;s laser base A 5x11 grid of invaders that continuously moves left and right across the middle of the screen 3 missiles, which the invaders somewhat randomly shoot down towards the player  Initial game state</description>
+    </item>
+    
+    <item>
       <title>TI-RSLK Path Follower</title>
       <link>https://tchieu.com/projects/rslk/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
