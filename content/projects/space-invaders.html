@@ -47,7 +47,7 @@ github: "https://github.com/tiffany1618/space-invaders"
         <p>Game during play</p>
     </div>
     <p>
-        And the game is implemented as follows:
+        And the game uses the following hardware:
     </p>
     <ul>
         <li>Left and right buttons for player movement</li>
@@ -66,10 +66,10 @@ github: "https://github.com/tiffany1618/space-invaders"
     </p>
     <h6 class="has-text-grey-light">VGA Timings Module</h6>
     <p>
-        Below is a diagram of the display timings and corresponding screen coordinates. We are using
-        signed coordinates here so that the blanking interval can occur before the active drawing area, but
+        Below is a diagram of the display timings and corresponding screen coordinates.
+        Signed coordinates are used here so that the blanking interval can occur before the active drawing area, but
         the first pixel of the active drawing area will still be (0,0) so we don’t need to worry about offsetting
-        all of our other coordinates. We want the blanking interval to occur before the active drawing area
+        all of the other coordinates. We want the blanking interval to occur before the active drawing area
         so that any setup for drawing sprites at the edge of the screen, which needs to occur before the first
         sprite pixel is drawn, can still occur during the same frame as the frame the sprite is actually drawn
         in.
@@ -80,15 +80,17 @@ github: "https://github.com/tiffany1618/space-invaders"
     </div>
     <p>
         This module outputs the horizontal and vertical sync signals, as well as a frame signal that indicates
-        the start of the blanking interval, when we can animate our sprites and check our collision signals. It also
+        the start of the blanking interval, when we can move our sprites (so that we don't run into screen tearing)
+        and check the collision signals (e.g. for keeping track of the player's lives and score, so that collisions
+        aren't counted more than once). It also
         outputs a data enable signal that is high during the active drawing period, and the current horizontal
         and vertical screen coordinates.
     </p>
     <h6 class="has-text-grey-light">Draw Sprite Module</h6>
     <p>
         This module draws a single sprite from a bitmap that can be scaled vertically and horizontally by the
-        same constant. The sprite is represented as a 2d array, which can be loaded from a bitmap.
-        Horizontal and vertical variables are maintained for addresses of the sprite pixel currently being drawn,
+        same constant. The sprite is represented as a 2d array, which is loaded from the bitmap. Horizontal and
+        vertical variables are maintained for addresses within the sprite bitmap of the sprite pixel currently being drawn,
         and the output drawing signal is set to high if the sprite is currently being drawn (state = DRAW) and the
         bit at the current address is high. This is implemented as a finite-state machine, which can be seen below.
     </p>
@@ -110,17 +112,17 @@ github: "https://github.com/tiffany1618/space-invaders"
     <p>
         This module draws a row of 11 sprites from a single bitmap that can be scaled vertically and horizontally by the
         same constant, and allows for individual sprites in the row to be visible or hidden. Its logic is very similar
-        to the previous modules, with the addition of a START_SPRITE state between AWAIT_POS and DRAW, which increments
+        to the previous module, with the addition of a START_SPRITE state between AWAIT_POS and DRAW, which increments
         a counter indicating the position of the sprite currently being drawn, and checks to see if the next sprite
         should be drawn or hidden.
     </p>
     <h6 class="has-text-grey-light">VGA Controller Module</h6>
     <p>
         This module receives the positions of everything that needs to be drawn on the screen and handles
-        drawing them or starting the correct drawing modules, outputting the correct 8-bit color pixel. This
-        includes blinking the player when it has been hit by a missile. It also detects collisions between the
-        player and the missiles or the invaders and the laser by using the drawing signals (if two objects are
-        being drawn at the same time, then they have collided).
+        drawing them or starting the correct drawing modules, outputting the correct 8-bit color pixel. It also blinks
+        the player 3 times when it has been hit by a missile, and detects collisions between the
+        player and the missiles or the invaders and the laser by setting the corresponding collision signal
+        when the relevant drawing signals are high at the same time.
     </p>
     <h4 class="has-text-grey-light">Button Debouncing</h4>
     <p>
@@ -132,13 +134,13 @@ github: "https://github.com/tiffany1618/space-invaders"
     </p>
     <p>
         To implement button debouncing, I used a 100 Hz clock to sample the button signals.
-        These samples were accumulated in a 3-bit register for each button, so that each clock cycle, a new sample
-        was added to the left-hand side of the register and the other bits were shifted right by one bit, discarding the least
-        significant bit. The 2 rightmost bits represented
+        These samples are accumulated in a 3-bit register for each button, so that each clock cycle, a new sample
+        is added to the left-hand side of the register and the other bits are shifted right by one bit, discarding the least
+        significant bit. The 2 rightmost bits are used to detect
         a change in button state (0 then 1 means the button went from off to on, 1 then 0
-        means the button went from on to off). The third bit was the debouncing bit - since the sampling frequency was
-        100 Hz, the signal was required to stay high or low for at least 10 ms before
-        we could conclude that the button was actually on or off, and that the high/low signal was
+        means the button went from on to off). The third bit is for debouncing - since the sampling frequency is
+        100 Hz, the signal is required to stay high or low for at least 10 ms before
+        we can conclude that the button is actually on or off, and that the high/low signal is
         not just the result of a fluctuation.
     </p>
     <div class="has-text-centered">
@@ -154,5 +156,4 @@ github: "https://github.com/tiffany1618/space-invaders"
         Code for this debouncing logic can be found
         <a href="https://github.com/tiffany1618/space-invaders/blob/main/src/util/debouncer.v" target="_blank" rel="noreferrer">here</a>.
     </p>
-    <h4 class="has-text-grey-light">Seven-segment Display</h4>
 </div>
