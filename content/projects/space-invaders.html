@@ -123,17 +123,35 @@ github: "https://github.com/tiffany1618/space-invaders"
         being drawn at the same time, then they have collided).
     </p>
     <h4 class="has-text-grey-light">Button Debouncing</h4>
-
+    <p>
+        Physical switches and buttons can cause small vibrations when they are pressed or flipped, resulting in small
+        voltage fluctuations that can appear as multiple button presses within a very short amount of time,
+        rather than as a single press. To solve this issue, we can sample the button state at a slower frequency,
+        and only report the button as being pressed when it can maintain the same state for some period of
+        time longer than the period of an average voltage fluctuation.
+    </p>
+    <p>
+        To implement button debouncing, I used a 100 Hz clock to sample the button signals.
+        These samples were accumulated in a 3-bit register for each button, so that each clock cycle, a new sample
+        was added to the left-hand side of the register and the other bits were shifted right by one bit, discarding the least
+        significant bit. The 2 rightmost bits represented
+        a change in button state (0 then 1 means the button went from off to on, 1 then 0
+        means the button went from on to off). The third bit was the debouncing bit - since the sampling frequency was
+        100 Hz, the signal was required to stay high or low for at least 10 ms before
+        we could conclude that the button was actually on or off, and that the high/low signal was
+        not just the result of a fluctuation.
+    </p>
     <div class="has-text-centered">
-        <img src="/images/space-invaders/debounce_high.png" alt="Debouncing a button press" width="500" height="auto" />
+        <p>Waveforms from Xilinx ISE Simulator:</p>
+        <img src="/images/space-invaders/debounce_high.png" alt="Debouncing a button press" width="700" height="auto" />
         <p>Debouncing a button press</p>
-    </div>
-    <div class="has-text-centered">
-        <img src="/images/space-invaders/debounce_low.png" alt="Debouncing a button de-press" width="500" height="auto" />
+        <img src="/images/space-invaders/debounce_low.png" alt="Debouncing a button de-press" width="700" height="auto" />
         <p>Debouncing a button de-press</p>
     </div>
     <p>
-        Code for the debouncing logic can be found
+        Above, clk_debouncer is a 100 Hz clock, btn_right is the signal from the button we are debouncing, step_right
+        is the 3-bit sampling register, and right is the debounced button signal.
+        Code for this debouncing logic can be found
         <a href="https://github.com/tiffany1618/space-invaders/blob/main/src/util/debouncer.v" target="_blank" rel="noreferrer">here</a>.
     </p>
     <h4 class="has-text-grey-light">Seven-segment Display</h4>
