@@ -21,7 +21,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://tchieu.com/projects/imgproc/</guid>
-      <description>Repository  Crates.io  Documentation       I wrote this basic image processing library mainly for the purpose of learning about image processing techniques and learning the Rust programming language. It provides a flexible container for storing and manipulating different image formats and channel data types, and supports the following types of image operations:  Color space conversions between sRGB, HSV, CIE XYZ, and CIELAB Brightness, contrast, and saturation adjustments Gamma correction and histogram equalization Linear filtering through convolution Nonlinear filters such as the median, bilateral, and alpha-trimmed mean filters Basic affine transformations Morphological operations   In addition, this library supports multithreading for some transformation functions and most filter functions via rayon.</description>
+      <description>Repository  Crates.io  Documentation       This image processing library provides a flexible container for storing and manipulating different image formats and channel data types, and supports the following types of image operations:  Color space conversions between sRGB, HSV, CIE XYZ, and CIELAB Brightness, contrast, and saturation adjustments Gamma correction and histogram equalization Linear filtering through convolution Nonlinear filters such as the median, bilateral, and alpha-trimmed mean filters Basic affine transformations Morphological operations   In addition, this library supports multithreading for some transformation functions and most filter functions via rayon.</description>
     </item>
     
     <item>
