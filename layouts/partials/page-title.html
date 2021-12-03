@@ -1,5 +1,5 @@
-<div class="pt-5">
-    <p class="title has-text-centered has-text-grey-light">
+<div class="pt-5 has-text-centered has-text-grey-light">
+    <p class="title has-text-grey-light">
         {{ if (isset .Params "title_url") }}
             <a href="{{ .Params.title_url }}" target="_blank" rel="noreferrer">{{ .Title }}</a>
         {{ else }}
@@ -7,9 +7,12 @@
         {{ end }}
     </p>
     {{ if (isset .Params "title_descrip") }}
-        <p class="subtitle is-5 has-text-centered has-text-grey-light">
+        <p class="subtitle is-5 has-text-grey-light">
             {{ .Params.title_descrip }}
         </p>
+    {{ end }}
+    {{ if (isset .Params "date") }}
+        <p>{{ .Date.Format "2 January 2006" }}</p>
     {{ end }}
 </div>
 <hr />

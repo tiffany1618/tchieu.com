@@ -1,8 +1,10 @@
 {{ define "main" }}
-    <h4 class="has-text-grey-light">2021</h4>
-    <ul>
-        {{ range .Pages.ByDate }}
+    <div class="content main-text">
+        <h2 class="title is-4 has-text-grey-light">2021</h2>
+        <ul>
+            {{ range .Pages.ByDate }}
             <li><a href="{{ .URL }}">{{ .Title }}</a></li>
-        {{ end }}
-    </ul>
+            {{ end }}
+        </ul>
+    </div>
 {{ end }}
