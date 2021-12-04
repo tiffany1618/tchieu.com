@@ -32,6 +32,10 @@ a.navbar-item:hover {
   color: $blue !important;
 }
 
+h2, h3, h4, h5, h6 {
+  color: $grey-light !important;
+}
+
 .main-content {
   width: 75%;
   max-width: 1000px;
