@@ -7759,7 +7759,8 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   padding: 3rem 1.5rem 6rem; }
 
 html, body {
-  min-height: 100vh; }
+  min-height: 100vh;
+  padding-bottom: 50px; }
 
 a:hover {
   color: #2196f3; }
@@ -7767,6 +7768,9 @@ a:hover {
 a.navbar-item:hover {
   background-color: #343a40 !important;
   color: #7abaff !important; }
+
+h2, h3, h4, h5, h6 {
+  color: #e8e8e8 !important; }
 
 .main-content {
   width: 75%;
@@ -7781,6 +7785,6 @@ a.navbar-item:hover {
   line-height: 30px; }
 
 .simple-box {
-  width: 1000px;
+  width: 100%;
   border: 1px solid #676a6f;
   border-radius: 7px; }
