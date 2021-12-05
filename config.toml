@@ -1,6 +1,6 @@
 baseURL = "https://tchieu.com"
 languageCode = "en"
-title = "Tiffany C. Chieu"
+title = "Tiffany Chieu"
 enableRobotsTXT = "true"
 
 [permalinks]
