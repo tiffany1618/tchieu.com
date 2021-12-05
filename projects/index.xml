@@ -30,7 +30,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://tchieu.com/projects/rslk/</guid>
-      <description>The goal of this project was to develop a path-following car based on the TI-RSLK car platform using a series of IR sensors and a PID controller. Code for the path-following system can be found here, and code for the basic Arduino PID controller that was used can be found here.  The path-following system began with an auto-calibration routine in which the car was placed over a white area, followed by a black area, from which minimum and maximum values were calibrated for each sensor.</description>
+      <description>The goal of this project was to develop a path-following car based on the TI-RSLK car platform using a series of IR sensors and a PID controller. Code for the path-following system can be found here, and code for the basic Arduino PID controller that was used can be found here.</description>
     </item>
     
     <item>
@@ -41,7 +41,7 @@
       <guid>https://tchieu.com/projects/vulcanet/</guid>
       <description>Created by: Tiffany Chieu, Nashir Janmohamed, Justin Lin, and Ariel Young
 Awards: Best IoT that Incorporates Multiple Nodes, San Diego Hackathon 2019
-Repository  Devpost       The goal of this project is to provide a reliable, low-cost early detection system for wildfires. VulcaNet is an extensible IoT mesh network that aggregates environmental sensor data from various locations within a given area, such as ambient temperature, humidity, barometric pressure, and carbon dioxide air content.</description>
+Repository  Devpost       The goal of this project is to provide a reliable, low-cost early detection system for wildfires.</description>
     </item>
     
   </channel>
