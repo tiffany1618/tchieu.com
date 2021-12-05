@@ -2,6 +2,7 @@ baseURL = "https://tchieu.com"
 languageCode = "en"
 title = "Tiffany Chieu"
 enableRobotsTXT = "true"
+summaryLength = 40
 
 [permalinks]
 blog = 'blog/:year/:month/:day/:filename/'

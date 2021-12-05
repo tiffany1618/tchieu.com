@@ -5,7 +5,11 @@
                 <div class="tile is-parent">
                     <div class="tile is-child">
                         <h4 class="title is-4"><a href="{{ .URL }}">{{ .Title }}</a></h4>
-                        <p class="subtitle is-6 has-text-grey-light">{{ .Date.Format "2 January 2006" }}</p>
+                        <p class="subtitle is-6 has-text-grey-light">
+                            {{ .Date.Format "2 January 2006" }}
+                            &#183
+                            {{ .Params.length }} min read
+                        </p>
                         <div class="content">{{ .Summary }}</div>
                     </div>
                 </div>

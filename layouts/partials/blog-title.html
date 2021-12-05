@@ -1,0 +1,14 @@
+<div class="pt-5 has-text-centered has-text-grey-light">
+    <p class="title has-text-grey-light m-3">{{ .Title }}</p>
+    {{ if (isset .Params "date") }}
+        <div class="subtitle is-6 has-text-grey-light m-3">{{ .Date.Format "2 January 2006" }}</div>
+        <div class="subtitle is-5 has-text-grey-light m-2">{{ .Params.length }} min read</div>
+        <div class="subtitle is-5 has-text-grey-light has-text-weight-bold">
+            &#8226
+            {{ range .Params.tags }}
+            {{ . }} &#8226
+            {{ end }}
+        </div>
+    {{ end }}
+</div>
+<hr />

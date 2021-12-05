@@ -10,8 +10,6 @@
         <p class="subtitle is-5 has-text-grey-light">
             {{ .Params.title_descrip }}
         </p>
-    {{ else if (isset .Params "date") }}
-        <p class="subtitle is-6 has-text-grey-light">{{ .Date.Format "2 January 2006" }}</p>
     {{ end }}
 </div>
 <hr />

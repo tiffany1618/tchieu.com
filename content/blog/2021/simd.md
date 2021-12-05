@@ -1,12 +1,17 @@
 ---
 title: "Optimizing image processing in Rust with SIMD intrinsics"
 date: "2021-12-04"
+length: "15"
+tags: ["Rust", "Image processing"]
 ---
-Single instruction, multiple data (SIMD) intrinsics allow us to vectorize operations that would otherwise occur
+{{<link text="Single instruction, multiple data" href="https://en.wikipedia.org/wiki/SIMD">}}
+(SIMD) intrinsics allow us to vectorize operations that would otherwise occur
 sequentially. This can greatly speed up a series of simple, repetitive operations that might be normally 
 executed using loops. One place such operations are commonly found is in image processing.
 
-For example, let's say we want to write a function that increases the brightness of an image. We can do that by
+{{<h3 text="Adjusting image brightness">}}
+
+Let's say we want to write a function that increases the brightness of an image. We can do that by
 simply adding a value to each channel in the image. For simplicity, we assume that our image has already been 
 processed into a vector for us. 
 
@@ -27,7 +32,8 @@ fn add(input: &Vec<u8>, val: u8) -> Vec<u8> {
 ```
 
 Pretty simple, right? Now let's do the same thing again, except this time we'll do it using SIMD intrinsics,
-specifically, using AVX2 instructions.
+specifically, using 
+{{<link text="AVX2 instructions" href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions">}}.
 
 ```rust
 #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
@@ -175,7 +181,7 @@ Add 10/SIMD/131072      time:   [5.2322 us 5.2328 us 5.2335 us]
 And here is a visualization of the timed results. As you can see, the SIMD version is not only significantly faster, 
 but also grows at a significantly slower rate as the input size increases.
 
-{{<img src="/images/blog/simd_line_chart.svg" alt="Benchmark line chart" width="900" >}}
+{{<img src="/images/blog/simd_line_chart.png" alt="Benchmark line chart" width="900" >}}
 
 {{< h3 text="What about images with an alpha channel?" >}}
 
@@ -270,8 +276,10 @@ if i > input.len() {
 }
 ```
 
-{{< h3 text="Conclusion" >}}
-
-While a bit verbose, SIMD intrinsics can help you improve the performance of your code.
-
 I hope you found this helpful, and thanks for reading!
+
+{{<h3 text="Additional resources">}}
+
+- {{<link text="SIMD module" href="https://doc.rust-lang.org/core/arch/index.html">}}
+- {{<link text="Portable SIMD module" href="https://rust-lang.github.io/portable-simd/core_simd/">}} (nightly-only)
+- {{<link text="Intel Intrinsics Guide" href="https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#">}}

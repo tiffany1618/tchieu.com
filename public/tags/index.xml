@@ -5,6 +5,25 @@
     <link>https://tchieu.com/tags/</link>
     <description>Recent content in Tags on Tiffany Chieu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://tchieu.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Sat, 04 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://tchieu.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Image processing</title>
+      <link>https://tchieu.com/tags/image-processing/</link>
+      <pubDate>Sat, 04 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://tchieu.com/tags/image-processing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rust</title>
+      <link>https://tchieu.com/tags/rust/</link>
+      <pubDate>Sat, 04 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://tchieu.com/tags/rust/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
