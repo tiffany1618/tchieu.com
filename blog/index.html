@@ -27,6 +27,8 @@
                     
                         <a class="navbar-item has-text-grey-light" href="/projects/">Projects</a>
                     
+                        <a class="navbar-item has-text-grey-light" href="/blog/">Blog</a>
+                    
                         <a class="navbar-item has-text-grey-light" href="/books/">Books</a>
                     
                         <a class="navbar-item has-text-grey-light" href="/resume/">Resume</a>
@@ -75,20 +77,30 @@
   </header>
   <body class="has-background-grey">
     <div class="main-content">
-      <div class="pt-5">
-    <p class="title has-text-centered has-text-grey-light">
+      <div class="pt-5 has-text-centered has-text-grey-light">
+    <p class="title has-text-grey-light">
         
-            
+            Posts
         
     </p>
     
 </div>
 <hr />
       
-    <h4 class="has-text-grey-light">2021</h4>
-    <ul>
-        
-    </ul>
+    <div class="content main-text">
+        <div class="column is-multiline">
+            
+                <div class="tile is-parent">
+                    <div class="tile is-child">
+                        <h4 class="title is-4"><a href="/blog/2021/12/04/simd/">Optimizing image processing in Rust with SIMD intrinsics</a></h4>
+                        <p class="subtitle is-6 has-text-grey-light">4 December 2021</p>
+                        <div class="content">Single instruction, multiple data (SIMD) intrinsics allow us to vectorize operations that would otherwise occur sequentially. This can greatly speed up a series of simple, repetitive operations that might be normally executed using loops. One place such operations are commonly found is in image processing.
+For example, let&rsquo;s say we want to write a function that increases the brightness of an image. We can do that by simply adding a value to each channel in the image.</div>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
 
     </div>
   </body>

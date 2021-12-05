@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tiffany C. Chieu</title>
+    <title>Posts on Tiffany C. Chieu</title>
     <link>https://tchieu.com/blog/</link>
-    <description>Recent content on Tiffany C. Chieu</description>
+    <description>Recent content in Posts on Tiffany C. Chieu</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://tchieu.com/blog/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Sat, 04 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://tchieu.com/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Optimizing image processing in Rust with SIMD intrinsics</title>
+      <link>https://tchieu.com/blog/2021/12/04/simd/</link>
+      <pubDate>Sat, 04 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://tchieu.com/blog/2021/12/04/simd/</guid>
+      <description>Single instruction, multiple data (SIMD) intrinsics allow us to vectorize operations that would otherwise occur sequentially. This can greatly speed up a series of simple, repetitive operations that might be normally executed using loops. One place such operations are commonly found is in image processing.
+For example, let&amp;rsquo;s say we want to write a function that increases the brightness of an image. We can do that by simply adding a value to each channel in the image.</description>
+    </item>
+    
   </channel>
 </rss>
