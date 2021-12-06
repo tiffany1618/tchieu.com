@@ -287,7 +287,7 @@ process them sequentially, as there will be no more than 31 bytes to process.
 ```rust
 if i > input.len() {
     for j in (i - 32)..input.len() {
-        output[j] = (input[j] + val).clamp(0, 255);
+        output[j] = input[j].saturating_add(val);
     }
 }
 ```
