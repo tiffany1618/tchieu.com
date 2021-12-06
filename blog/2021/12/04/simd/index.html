@@ -326,7 +326,7 @@ wherever it is supported.</p>
 process them sequentially, as there will be no more than 31 bytes to process.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">if</span> i <span style="color:#f92672">&gt;</span> input.len() {
     <span style="color:#66d9ef">for</span> j <span style="color:#66d9ef">in</span> (i <span style="color:#f92672">-</span> <span style="color:#ae81ff">32</span>)..input.len() {
-        output[j] <span style="color:#f92672">=</span> (input[j] <span style="color:#f92672">+</span> val).clamp(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">255</span>);
+        output[j] <span style="color:#f92672">=</span> input[j].saturating_add(val);
     }
 }
 </code></pre></div><p>I hope you found this helpful, and thanks for reading!</p>
