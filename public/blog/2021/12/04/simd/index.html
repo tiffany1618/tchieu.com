@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Single instruction, multiple data (SIMD) intrinsics allow us to vectorize operations that would otherwise occur sequentially. This can greatly speed up a series of simple, repetitive operations that might be normally executed using loops. One place such operations are commonly found is in image processing." />
+    <meta name="description" content="Single instruction, multiple data (SIMD) intrinsics allow us to vectorize operations that would otherwise occur sequentially. This can greatly speed up a series of simple, repetitive operations that might be normally executed using loops. In this article, we will focus on vectorizable operations commonly found in image processing." />
     <link rel="stylesheet" href="/css/styles.css">
     <title>Tiffany Chieu: Optimizing image processing in Rust with SIMD intrinsics</title>
 </head>
@@ -98,12 +98,12 @@
         <p><a href="https://en.wikipedia.org/wiki/SIMD" target="_blank" rel="noreferrer">Single instruction, multiple data</a>
 (SIMD) intrinsics allow us to vectorize operations that would otherwise occur
 sequentially. This can greatly speed up a series of simple, repetitive operations that might be normally
-executed using loops. One place such operations are commonly found is in image processing.</p>
+executed using loops. In this article, we will focus on vectorizable operations commonly found in image processing.</p>
 <h3 class="subtitle is-3 has-text-grey-light">Adjusting image brightness</h3>
 <p>Let&rsquo;s say we want to write a function that increases the brightness of an image. We can do that by
 simply adding a value to each channel in the image. For simplicity, we assume that our image has already been
 processed into a vector for us.</p>
-<p>No problem - here&rsquo;s that function, which takes in the image as a
+<p>Here is that function, which takes in the image as a
 <samp style="background-color: #3f434a">Vec</samp> of <samp style="background-color: #3f434a">u8</samp>&rsquo;s and another  <samp style="background-color: #3f434a">u8</samp>, which is a value from 0-255
 indicating how much we want to increase the brightness of the image by:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">add</span>(input: <span style="color:#66d9ef">&amp;</span>Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span>, val: <span style="color:#66d9ef">u8</span>) -&gt; Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span> {
@@ -115,7 +115,7 @@ indicating how much we want to increase the brightness of the image by:</p>
 
     <span style="color:#66d9ef">return</span> output
 }
-</code></pre></div><p>Pretty simple, right? Now let&rsquo;s do the same thing again, except this time we&rsquo;ll do it using SIMD intrinsics,
+</code></pre></div><p>That was pretty straightforward. Now let&rsquo;s do the same thing again, except this time we&rsquo;ll do it using SIMD intrinsics,
 specifically, using
 <a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions" target="_blank" rel="noreferrer">AVX2 instructions</a>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[cfg(any(target_arch = </span><span style="color:#e6db74">&#34;x86&#34;</span><span style="color:#75715e">, target_arch = </span><span style="color:#e6db74">&#34;x86_64&#34;</span><span style="color:#75715e">))]</span>
@@ -193,40 +193,87 @@ of the two functions across a range of image sizes.</p>
         });
     }
 }
-</code></pre></div><p>Here are the results:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">Add <span style="color:#ae81ff">10</span><span style="color:#f92672">/</span>No SIMD<span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span>     time:   [<span style="color:#ae81ff">1.9911</span> us <span style="color:#ae81ff">1.9913</span> us <span style="color:#ae81ff">1.9916</span> us]
-                        thrpt:  [<span style="color:#ae81ff">490.35</span> MiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">490.41</span> MiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">490.47</span> MiB<span style="color:#f92672">/</span>s]
-Add <span style="color:#ae81ff">10</span><span style="color:#f92672">/</span>SIMD<span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span>        time:   [<span style="color:#ae81ff">82.407</span> ns <span style="color:#ae81ff">82.845</span> ns <span style="color:#ae81ff">83.485</span> ns]
-                        thrpt:  [<span style="color:#ae81ff">11.423</span> GiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">11.512</span> GiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">11.573</span> GiB<span style="color:#f92672">/</span>s]
-                        
-Add <span style="color:#ae81ff">10</span><span style="color:#f92672">/</span>No SIMD<span style="color:#f92672">/</span><span style="color:#ae81ff">16384</span>    time:   [<span style="color:#ae81ff">31.677</span> us <span style="color:#ae81ff">31.680</span> us <span style="color:#ae81ff">31.683</span> us]
-                        thrpt:  [<span style="color:#ae81ff">493.17</span> MiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">493.22</span> MiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">493.26</span> MiB<span style="color:#f92672">/</span>s]
-Add <span style="color:#ae81ff">10</span><span style="color:#f92672">/</span>SIMD<span style="color:#f92672">/</span><span style="color:#ae81ff">16384</span>       time:   [<span style="color:#ae81ff">621.91</span> ns <span style="color:#ae81ff">622.53</span> ns <span style="color:#ae81ff">623.34</span> ns]
-                        thrpt:  [<span style="color:#ae81ff">24.479</span> GiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">24.511</span> GiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">24.535</span> GiB<span style="color:#f92672">/</span>s]
-                        
-Add <span style="color:#ae81ff">10</span><span style="color:#f92672">/</span>No SIMD<span style="color:#f92672">/</span><span style="color:#ae81ff">32768</span>    time:   [<span style="color:#ae81ff">33.592</span> us <span style="color:#ae81ff">33.598</span> us <span style="color:#ae81ff">33.605</span> us]
-                        thrpt:  [<span style="color:#ae81ff">929.91</span> MiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">930.11</span> MiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">930.27</span> MiB<span style="color:#f92672">/</span>s]
-Add <span style="color:#ae81ff">10</span><span style="color:#f92672">/</span>SIMD<span style="color:#f92672">/</span><span style="color:#ae81ff">32768</span>       time:   [<span style="color:#ae81ff">1.4783</span> us <span style="color:#ae81ff">1.4792</span> us <span style="color:#ae81ff">1.4802</span> us]
-                        thrpt:  [<span style="color:#ae81ff">20.617</span> GiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">20.631</span> GiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">20.644</span> GiB<span style="color:#f92672">/</span>s]
-                        
-Add <span style="color:#ae81ff">10</span><span style="color:#f92672">/</span>No SIMD<span style="color:#f92672">/</span><span style="color:#ae81ff">65536</span>    time:   [<span style="color:#ae81ff">85.862</span> us <span style="color:#ae81ff">94.245</span> us <span style="color:#ae81ff">101.66</span> us]
-                        thrpt:  [<span style="color:#ae81ff">614.81</span> MiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">663.17</span> MiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">727.91</span> MiB<span style="color:#f92672">/</span>s]
-Add <span style="color:#ae81ff">10</span><span style="color:#f92672">/</span>SIMD<span style="color:#f92672">/</span><span style="color:#ae81ff">65536</span>       time:   [<span style="color:#ae81ff">2.7283</span> us <span style="color:#ae81ff">2.7311</span> us <span style="color:#ae81ff">2.7369</span> us]
-                        thrpt:  [<span style="color:#ae81ff">22.301</span> GiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">22.348</span> GiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">22.371</span> GiB<span style="color:#f92672">/</span>s]
-                        
-Add <span style="color:#ae81ff">10</span><span style="color:#f92672">/</span>No SIMD<span style="color:#f92672">/</span><span style="color:#ae81ff">131072</span>   time:   [<span style="color:#ae81ff">134.03</span> us <span style="color:#ae81ff">134.03</span> us <span style="color:#ae81ff">134.04</span> us]
-                        thrpt:  [<span style="color:#ae81ff">932.55</span> MiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">932.60</span> MiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">932.65</span> MiB<span style="color:#f92672">/</span>s]
-Add <span style="color:#ae81ff">10</span><span style="color:#f92672">/</span>SIMD<span style="color:#f92672">/</span><span style="color:#ae81ff">131072</span>      time:   [<span style="color:#ae81ff">5.2322</span> us <span style="color:#ae81ff">5.2328</span> us <span style="color:#ae81ff">5.2335</span> us]
-                        thrpt:  [<span style="color:#ae81ff">23.325</span> GiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">23.328</span> GiB<span style="color:#f92672">/</span>s <span style="color:#ae81ff">23.331</span> GiB<span style="color:#f92672">/</span>s]                                                                                                                                                                                                
-</code></pre></div><p>And here is a visualization of the timed results. As you can see, the SIMD version is not only significantly faster,
-but also grows at a significantly slower rate as the input size increases.</p>
+</code></pre></div><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h4 class="subtitle is-4 has-text-grey-light">Speed</h4>
+<table>
+<thead>
+<tr>
+<th><h5 class="subtitle is-5 has-text-grey-light">Size (bytes)</h5></th>
+<th><h5 class="subtitle is-5 has-text-grey-light">1024</h5></th>
+<th><h5 class="subtitle is-5 has-text-grey-light">16384</h5></th>
+<th><h5 class="subtitle is-5 has-text-grey-light">32768</h5></th>
+<th><h5 class="subtitle is-5 has-text-grey-light">65536</h5></th>
+<th><h5 class="subtitle is-5 has-text-grey-light">131072</h5></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No SIMD</td>
+<td>1.99 us</td>
+<td>31.7 us</td>
+<td>33.6 us</td>
+<td>94.2 us</td>
+<td>134 us</td>
+</tr>
+<tr>
+<td>SIMD</td>
+<td>82.8 ns</td>
+<td>623 ns</td>
+<td>1.48 us</td>
+<td>2.73 us</td>
+<td>5.23 us</td>
+</tr>
+<tr>
+<td>SIMD Comparison</td>
+<td>24x faster</td>
+<td>51x faster</td>
+<td>23x faster</td>
+<td>35x faster</td>
+<td>26x faster</td>
+</tr>
+</tbody>
+</table>
 <div class="has-text-centered">
     <img src="/images/blog/simd_line_chart.png" alt="Benchmark line chart" width="900" height="auto" />
 </div>
+<p>As you can see, the SIMD version is not only significantly faster,
+but also grows at a significantly slower rate as the input size increases.</p>
+<h4 class="subtitle is-4 has-text-grey-light">Throughput</h4>
+<table>
+<thead>
+<tr>
+<th><h5 class="subtitle is-5 has-text-grey-light">Size (bytes)</h5></th>
+<th><h5 class="subtitle is-5 has-text-grey-light">1024</h5></th>
+<th><h5 class="subtitle is-5 has-text-grey-light">16384</h5></th>
+<th><h5 class="subtitle is-5 has-text-grey-light">32768</h5></th>
+<th><h5 class="subtitle is-5 has-text-grey-light">65536</h5></th>
+<th><h5 class="subtitle is-5 has-text-grey-light">131072</h5></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No SIMD</td>
+<td>490 MiB/s</td>
+<td>493 MiB/s</td>
+<td>930 MiB/s</td>
+<td>663 MiB/s</td>
+<td>933 MiB/s</td>
+</tr>
+<tr>
+<td>SIMD</td>
+<td>11.5 GiB/s</td>
+<td>24.5 GiB/s</td>
+<td>20.6 GiB/s</td>
+<td>22.3 GiB/s</td>
+<td>23.3 GiB/s</td>
+</tr>
+</tbody>
+</table>
+<p>As expected, we are also able to process significantly more bytes per second with SIMD (1 GiB = 1024 MiB).</p>
 <h3 class="subtitle is-3 has-text-grey-light">What about images with an alpha channel?</h3>
-<p>Of course, in some cases, we would like to only change the values of particular channels within our image. This could
-be because we want to change a certain property of the image that relies on a particular channel, like changing the
-saturation channel in an HSV image, or, more commonly, if we want to change only the RGB channels of RGBA image.</p>
+<p>In some cases, we would like to only change the values of particular channels within our image. For instance, we might
+want to change only the saturation channel in an HSV image, or change only the RGB channels of RGBA image.</p>
 <p>In our case, if our input vector represents an RGBA image, then we would like to add <samp style="background-color: #3f434a">val</samp> to all
 channels except the 4th channel, which is the alpha channel. This will increase the brightness of the image
 while preserving the level of transparency.</p>

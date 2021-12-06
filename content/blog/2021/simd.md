@@ -7,7 +7,7 @@ tags: ["Rust", "Image processing"]
 {{<link text="Single instruction, multiple data" href="https://en.wikipedia.org/wiki/SIMD">}}
 (SIMD) intrinsics allow us to vectorize operations that would otherwise occur
 sequentially. This can greatly speed up a series of simple, repetitive operations that might be normally 
-executed using loops. One place such operations are commonly found is in image processing.
+executed using loops. In this article, we will focus on vectorizable operations commonly found in image processing.
 
 {{<h3 text="Adjusting image brightness">}}
 
@@ -15,7 +15,7 @@ Let's say we want to write a function that increases the brightness of an image.
 simply adding a value to each channel in the image. For simplicity, we assume that our image has already been 
 processed into a vector for us. 
 
-No problem - here's that function, which takes in the image as a 
+Here is that function, which takes in the image as a 
 {{<code text="Vec">}} of {{<code text="u8">}}'s and another  {{<code text="u8">}}, which is a value from 0-255 
 indicating how much we want to increase the brightness of the image by:
 
@@ -31,7 +31,7 @@ fn add(input: &Vec<u8>, val: u8) -> Vec<u8> {
 }
 ```
 
-Pretty simple, right? Now let's do the same thing again, except this time we'll do it using SIMD intrinsics,
+That was pretty straightforward. Now let's do the same thing again, except this time we'll do it using SIMD intrinsics,
 specifically, using 
 {{<link text="AVX2 instructions" href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions">}}.
 
@@ -149,8 +149,7 @@ fn bench_add(c: &mut Criterion) {
 }
 ```
 
-Here are the results:
-
+<!---
 ```rust
 Add 10/No SIMD/1024     time:   [1.9911 us 1.9913 us 1.9916 us]
                         thrpt:  [490.35 MiB/s 490.41 MiB/s 490.47 MiB/s]
@@ -177,17 +176,34 @@ Add 10/No SIMD/131072   time:   [134.03 us 134.03 us 134.04 us]
 Add 10/SIMD/131072      time:   [5.2322 us 5.2328 us 5.2335 us]
                         thrpt:  [23.325 GiB/s 23.328 GiB/s 23.331 GiB/s]                                                                                                                                                                                                
 ```
+-->
 
-And here is a visualization of the timed results. As you can see, the SIMD version is not only significantly faster, 
-but also grows at a significantly slower rate as the input size increases.
+{{<h4 text="Speed">}}
+
+| {{<h5 text="Size (bytes)">}} | {{<h5 text="1024">}} | {{<h5 text="16384">}} | {{<h5 text="32768">}} | {{<h5 text="65536">}} | {{<h5 text="131072">}} |
+|------------------------------|----------------------|-----------------------|-----------------------|-----------------------|------------------------|
+| No SIMD                      | 1.99 us              | 31.7 us               | 33.6 us               | 94.2 us               | 134 us                 |
+| SIMD                         | 82.8 ns              | 623 ns                | 1.48 us               | 2.73 us               | 5.23 us                |
+| SIMD Comparison              | 24x faster           | 51x faster            | 23x faster            | 35x faster            | 26x faster             |
 
 {{<img src="/images/blog/simd_line_chart.png" alt="Benchmark line chart" width="900" >}}
 
+As you can see, the SIMD version is not only significantly faster,
+but also grows at a significantly slower rate as the input size increases.
+
+{{<h4 text="Throughput">}}
+
+| {{<h5 text="Size (bytes)">}} | {{<h5 text="1024">}} | {{<h5 text="16384">}} | {{<h5 text="32768">}} | {{<h5 text="65536">}} | {{<h5 text="131072">}} |
+|------------------------------|----------------------|-----------------------|-----------------------|-----------------------|------------------------|
+| No SIMD                      | 490 MiB/s            | 493 MiB/s             | 930 MiB/s             | 663 MiB/s             | 933 MiB/s              |
+| SIMD                         | 11.5 GiB/s           | 24.5 GiB/s            | 20.6 GiB/s            | 22.3 GiB/s            | 23.3 GiB/s             |
+
+As expected, we are also able to process significantly more bytes per second with SIMD (1 GiB = 1024 MiB).
+
 {{< h3 text="What about images with an alpha channel?" >}}
 
-Of course, in some cases, we would like to only change the values of particular channels within our image. This could
-be because we want to change a certain property of the image that relies on a particular channel, like changing the 
-saturation channel in an HSV image, or, more commonly, if we want to change only the RGB channels of RGBA image.
+In some cases, we would like to only change the values of particular channels within our image. For instance, we might
+want to change only the saturation channel in an HSV image, or change only the RGB channels of RGBA image.
 
 In our case, if our input vector represents an RGBA image, then we would like to add {{<code text="val">}} to all
 channels except the 4th channel, which is the alpha channel. This will increase the brightness of the image
