@@ -13,7 +13,7 @@
       <pubDate>Sat, 04 Dec 2021 00:00:00 +0000</pubDate>
       
       <guid>https://tchieu.com/blog/2021/12/04/simd/</guid>
-      <description>Single instruction, multiple data (SIMD) intrinsics allow us to vectorize operations that would otherwise occur sequentially. This can greatly speed up a series of simple, repetitive operations that might be normally executed using loops. One place such operations are commonly found is in image processing.</description>
+      <description>Single instruction, multiple data (SIMD) intrinsics allow us to vectorize operations that would otherwise occur sequentially. This can greatly speed up a series of simple, repetitive operations that might be normally executed using loops. In this article, we will focus on vectorizable operations commonly found in image processing.</description>
     </item>
     
     <item>
