@@ -296,6 +296,8 @@ I hope you found this helpful, and thanks for reading!
 
 {{<h3 text="Additional resources">}}
 
-- {{<link text="SIMD module" href="https://doc.rust-lang.org/core/arch/index.html">}}
-- {{<link text="Portable SIMD module" href="https://rust-lang.github.io/portable-simd/core_simd/">}} (nightly-only)
+- {{<link text="SIMD module" href="https://github.com/tiffany1618/imgproc-rs/blob/main/src/simd.rs">}} from
+    {{<link text="imgproc-rs" href="https://github.com/tiffany1618/imgproc-rs">}}
+- {{<link text="Rust's SIMD module" href="https://doc.rust-lang.org/core/arch/index.html">}}
+- {{<link text="Rust's Portable SIMD module" href="https://rust-lang.github.io/portable-simd/core_simd/">}} (nightly-only)
 - {{<link text="Intel Intrinsics Guide" href="https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#">}}
