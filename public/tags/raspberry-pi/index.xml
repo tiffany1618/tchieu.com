@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Raspberry Pi on Tiffany Chieu</title>
+    <link>https://tchieu.com/tags/raspberry-pi/</link>
+    <description>Recent content in Raspberry Pi on Tiffany Chieu</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 03 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://tchieu.com/tags/raspberry-pi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Running a uCAM-III on a Raspberry Pi</title>
+      <link>https://tchieu.com/blog/2022/01/03/ucam-iii/</link>
+      <pubDate>Mon, 03 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://tchieu.com/blog/2022/01/03/ucam-iii/</guid>
+      <description>The uCAM-III from 4D Systems is a compact serial camera module that can output RAW and JPEG images. In this article, we will go through setting up the camera to communicate with a Raspberry Pi, configuring the camera, and, finally, retrieving images from the camera.</description>
+    </item>
+    
+  </channel>
+</rss>

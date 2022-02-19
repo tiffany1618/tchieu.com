@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="The uCAM-III from 4D Systems is a compact serial camera module that can output RAW and JPEG images. In this article, we will go through setting up the camera to communicate with a Raspberry Pi, configuring the camera, and, finally, retrieving images from the camera." />
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Tiffany Chieu: Running a uCAM-III on a Raspberry Pi</title>
+</head>
+<header>
+    
+    <nav class="navbar has-background-black" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a role="button" class="navbar-burger has-text-grey-light" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbarMain" class="navbar-menu has-background-black">
+            <div class="navbar-start">
+                
+                    <a class="navbar-item has-text-grey-light" href="/">Home</a>
+                
+                
+                    
+                        <a class="navbar-item has-text-grey-light" href="/projects/">Projects</a>
+                    
+                        <a class="navbar-item has-text-grey-light" href="/blog/">Blog</a>
+                    
+                        <a class="navbar-item has-text-grey-light" href="/books/">Books</a>
+                    
+                        <a class="navbar-item has-text-grey-light" href="/resume/">Resume</a>
+                    
+                
+            </div>
+            <div class="navbar-end">
+                <a class="navbar-item" href="https://github.com/tiffany1618" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/github_logo.png" alt="Github logo" />
+                </a>
+                <a class="navbar-item" href="https://www.linkedin.com/in/tiffany-chieu/" target="_blank" rel="noreferrer">
+                    <img src="/images/logos/linkedin_logo.png" alt="LinkedIn logo" />
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    
+   const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+    
+    if ($navbarBurgers.length > 0) {
+
+      
+      $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+
+          
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+
+          
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+
+        });
+      });
+    }
+
+  });
+</script>
+</header>
+<body class="has-background-grey">
+<div class="main-content">
+    <div class="pt-5 has-text-centered has-text-grey-light">
+    <p class="title has-text-grey-light m-3">Running a uCAM-III on a Raspberry Pi</p>
+    
+        <div class="subtitle is-6 has-text-grey-light m-3">3 January 2022</div>
+        <div class="subtitle is-5 has-text-grey-light m-2">20 min read</div>
+        <div class="subtitle is-5 has-text-grey-light has-text-weight-bold">
+            &#8226
+            
+            C&#43;&#43; &#8226
+            
+            Raspberry Pi &#8226
+            
+        </div>
+    
+</div>
+<hr />
+
+    
+    <div class="content main-text">
+        <p>The <a href="https://4dsystems.com.au/ucam-iii" target="_blank" rel="noreferrer">uCAM-III</a> from 4D Systems is a compact serial camera module
+that can output RAW and JPEG images. In this article, we will go through setting up the camera to communicate with a
+Raspberry Pi, configuring the camera, and, finally, retrieving images from the camera.</p>
+<h3 class="subtitle is-3 has-text-grey-light">Configuring UARTs (Pi 3, 4, Zero W)</h3>
+<p>The Raspberry Pi provides
+<a href="https://www.raspberrypi.com/documentation/computers/configuration.html#configuring-uarts" target="_blank" rel="noreferrer">two types of UART</a>:
+<a href="https://developer.arm.com/documentation/ddi0183/g/" target="_blank" rel="noreferrer">PL011</a> and mini-UART, which is
+<a href="https://www.raspberrypi.com/documentation/computers/configuration.html#pl011-and-mini-uart" target="_blank" rel="noreferrer">not as good</a>
+as the PL011 UART. By default, the primary UART (mini-UART) is present on GPIO 14 (TX) and 15 (RX), and the secondary
+UART (PL011) is used for Bluetooth. In order to use a PL011 to communicate with the camera, we need to disable Bluetooth
+by adding this line to <samp style="background-color: #3f434a">/boot/config.txt</samp>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">dtoverlay=disable-bt
+</code></pre></div><p>This will make the first PL011 the primary UART. We also need to disable the service that initializes the modem:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">$ sudo systemctl disable hciuart
+</code></pre></div><p>Finally, we need to disable the Linux serial console, which is assigned to the primary UART by default. This can be done
+by removing this text from <samp style="background-color: #3f434a">/boot/cmdline.txt</samp>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">console=serial0,115200
+</code></pre></div><p>Reboot your Pi, and verify that the changes have been successfully applied by running:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">$ ls -al /dev | grep serial
+</code></pre></div><p>You should now see another serial port:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">lrwxrwxrwx  1 root root           7 Dec 20 20:22 serial0 -&gt; ttyAMA0
+lrwxrwxrwx  1 root root           5 Dec 20 20:22 serial1 -&gt; ttyS0
+</code></pre></div><h3 class="subtitle is-3 has-text-grey-light">Serial communication with WiringPi</h3>
+<h4 class="subtitle is-4 has-text-grey-light">Set up</h4>
+<p>To set up a serial connection, and read and write serial data, we will use the
+<a href="https://github.com/WiringPi/WiringPi" target="_blank" rel="noreferrer">WiringPi</a>
+library. Make sure to include the relevant WiringPi headers:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;wiringPi.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;wiringSerial.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>cout;
+<span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>cerr;
+<span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>endl;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#75715e">// Initialize WiringPi
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (wiringPiSetup() <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+        cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Unable to start WiringPi&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    }
+
+    <span style="color:#66d9ef">int</span> fd; <span style="color:#75715e">// File descriptor
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">// Open a serial device and set a baud rate of 115200
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> ((fd <span style="color:#f92672">=</span> serialOpen(<span style="color:#e6db74">&#34;/dev/ttyAMA0&#34;</span>, <span style="color:#ae81ff">115200</span>)) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+        cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Unable to open serial device&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    }
+    
+    <span style="color:#75715e">// Do camera stuff
+</span><span style="color:#75715e"></span>    
+    <span style="color:#75715e">// Close serial device
+</span><span style="color:#75715e"></span>    serialClose(fd);
+    
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h4 class="subtitle is-4 has-text-grey-light">Sending commands to the uCAM-III</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">send_cmd</span>(<span style="color:#66d9ef">uint8_t</span> cmd, <span style="color:#66d9ef">uint8_t</span> param1, <span style="color:#66d9ef">uint8_t</span> param2, <span style="color:#66d9ef">uint8_t</span> param3, <span style="color:#66d9ef">uint8_t</span> param4) {
+    <span style="color:#66d9ef">uint8_t</span> data[<span style="color:#ae81ff">6</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0xAA</span>, cmd, param1, param2, param3, param4};
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">uint8_t</span> i : data) {
+        serialPutchar((<span style="color:#66d9ef">int</span>) m_serial_port, i);
+    }
+}
+</code></pre></div><h4 class="subtitle is-4 has-text-grey-light">Receiving commands from the uCAM-III</h4>
+<h3 class="subtitle is-3 has-text-grey-light">Synchronizing the uCAM-III</h3>
+<p>After powering on the camera, a synchronization routine must occur to establish communications between the Pi and the
+uCAM-III.</p>
+<h4 class="subtitle is-4 has-text-grey-light">Hardware reset</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">hard_reset</span>() {
+    digitalWrite(<span style="color:#f92672">&lt;</span>RST_PIN<span style="color:#f92672">&gt;</span>, LOW);
+    delay(<span style="color:#ae81ff">10</span>);
+    digitalWrite(<span style="color:#f92672">&lt;</span>RST_PIN<span style="color:#f92672">&gt;</span>, HIGH);
+    delay(<span style="color:#ae81ff">10</span>);
+}
+</code></pre></div><h4 class="subtitle is-4 has-text-grey-light">Synchronization procedure</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sync</span>() {
+    <span style="color:#66d9ef">uint8_t</span> data[<span style="color:#ae81ff">6</span>];
+
+    <span style="color:#75715e">// Send SYNC command until ACK command is received
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">uint8_t</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">60</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#75715e">// Send SYNC command
+</span><span style="color:#75715e"></span>        send_cmd(CMD_SYNC);
+
+        <span style="color:#75715e">// Check if ACK command received
+</span><span style="color:#75715e"></span>        receive_cmd(data, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">5</span> <span style="color:#f92672">+</span> i);
+        <span style="color:#66d9ef">if</span> (data[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> CMD_PREFIX <span style="color:#f92672">&amp;&amp;</span> data[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> CMD_ACK <span style="color:#f92672">&amp;&amp;</span> data[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> CMD_SYNC) {
+            <span style="color:#75715e">// Check if SYNC command received
+</span><span style="color:#75715e"></span>            receive_cmd(data, NUM_CMD_BYTES, <span style="color:#ae81ff">5</span> <span style="color:#f92672">+</span> i);
+            <span style="color:#66d9ef">if</span> (data[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> CMD_PREFIX <span style="color:#f92672">&amp;&amp;</span> data[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> CMD_SYNC) {
+                delay(<span style="color:#ae81ff">10</span>);
+                <span style="color:#75715e">// Respond with ACK command
+</span><span style="color:#75715e"></span>                send_cmd_unchecked(CMD_ACK, CMD_SYNC);
+
+                cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Synchronization completed&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+                <span style="color:#66d9ef">return</span>;
+            }
+        }
+    }
+
+    cerr <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Synchronization failed after &#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; tries&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div><h3 class="subtitle is-3 has-text-grey-light">Configuring the uCAM-III</h3>
+<h3 class="subtitle is-3 has-text-grey-light">Taking a JPEG Snapshot picture</h3>
+<h3 class="subtitle is-3 has-text-grey-light">Taking a RAW Snapshot picture</h3>
+<h3 class="subtitle is-3 has-text-grey-light">Additional Resources</h3>
+<ul>
+<li><a href="https://4dsystems.com.au/mwdownloads/download/link/id/420/" target="_blank" rel="noreferrer">uCAM-III datasheet</a></li>
+<li><a href="https://github.com/Bruin-Spacecraft-Group/RapidCDH/tree/main/src/sensors" target="_blank" rel="noreferrer">Full uCAM-III class library</a></li>
+</ul>
+
+    </div>
+    
+</div>
+</body>
+</html>
