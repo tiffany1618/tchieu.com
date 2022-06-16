@@ -106,94 +106,94 @@ processed into a vector for us.</p>
 <p>Here is that function, which takes in the image as a
 <samp style="background-color: #3f434a">Vec</samp> of <samp style="background-color: #3f434a">u8</samp>&rsquo;s and another  <samp style="background-color: #3f434a">u8</samp>, which is a value from 0-255
 indicating how much we want to increase the brightness of the image by:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">add</span>(input: <span style="color:#66d9ef">&amp;</span>Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span>, val: <span style="color:#66d9ef">u8</span>) -&gt; Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span> {
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> output: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> Vec::with_capacity(input.len());
-
-    <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> input {
-        output.push(i <span style="color:#f92672">+</span> val);
-    }
-
-    <span style="color:#66d9ef">return</span> output
-}
-</code></pre></div><p>That was pretty straightforward. Now let&rsquo;s do the same thing again, except this time we&rsquo;ll do it using SIMD intrinsics,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">add</span>(input: <span style="color:#66d9ef">&amp;</span>Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span>, val: <span style="color:#66d9ef">u8</span>) -&gt; Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> output: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> Vec::with_capacity(input.len());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#66d9ef">in</span> input {
+</span></span><span style="display:flex;"><span>        output.push(i <span style="color:#f92672">+</span> val);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> output
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>That was pretty straightforward. Now let&rsquo;s do the same thing again, except this time we&rsquo;ll do it using SIMD intrinsics,
 specifically, using
 <a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions" target="_blank" rel="noreferrer">AVX2 instructions</a>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[cfg(any(target_arch = </span><span style="color:#e6db74">&#34;x86&#34;</span><span style="color:#75715e">, target_arch = </span><span style="color:#e6db74">&#34;x86_64&#34;</span><span style="color:#75715e">))]</span>
-<span style="color:#75715e">#[target_feature(enable = </span><span style="color:#e6db74">&#34;avx2&#34;</span><span style="color:#75715e">)]</span>
-<span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">add_256</span>(input: <span style="color:#66d9ef">&amp;</span>Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span>, val: <span style="color:#66d9ef">u8</span>) -&gt; Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span> {
-    <span style="color:#75715e">#[cfg(target_arch = </span><span style="color:#e6db74">&#34;x86_64&#34;</span><span style="color:#75715e">)]</span>
-    <span style="color:#66d9ef">use</span> std::arch::x86_64::<span style="color:#f92672">*</span>;
-
-    <span style="color:#75715e">#[cfg(target_arch = </span><span style="color:#e6db74">&#34;x86&#34;</span><span style="color:#75715e">)]</span>
-    <span style="color:#66d9ef">use</span> std::arch::x86::<span style="color:#f92672">*</span>;
-    
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> output: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[<span style="color:#ae81ff">0</span>; input.len()];
-    <span style="color:#66d9ef">let</span> val_256 <span style="color:#f92672">=</span> _mm256_set1_epi8(val <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">i8</span>);
-
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span>) <span style="color:#f92672">&lt;=</span> input.len() {
-        <span style="color:#66d9ef">let</span> chunk <span style="color:#f92672">=</span> _mm256_loadu_si256(input.as_ptr().offset(i <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">isize</span>) <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> _);
-        <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> _mm256_adds_epi8(chunk, val_256);
-        _mm256_storeu_si256(output.as_mut_ptr().offset(i <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">isize</span>) <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> _, res);
-
-        i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">32</span>;
-    }
-
-    <span style="color:#66d9ef">return</span> output
-}
-</code></pre></div><p>Let&rsquo;s break this down.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#[cfg(any(target_arch = </span><span style="color:#e6db74">&#34;x86&#34;</span><span style="color:#75715e">, target_arch = </span><span style="color:#e6db74">&#34;x86_64&#34;</span><span style="color:#75715e">))]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[target_feature(enable = </span><span style="color:#e6db74">&#34;avx2&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">add_256</span>(input: <span style="color:#66d9ef">&amp;</span>Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span>, val: <span style="color:#66d9ef">u8</span>) -&gt; Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[cfg(target_arch = </span><span style="color:#e6db74">&#34;x86_64&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">use</span> std::arch::x86_64::<span style="color:#f92672">*</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[cfg(target_arch = </span><span style="color:#e6db74">&#34;x86&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">use</span> std::arch::x86::<span style="color:#f92672">*</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> output: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> vec![<span style="color:#ae81ff">0</span>; input.len()];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> val_256 <span style="color:#f92672">=</span> _mm256_set1_epi8(val <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">i8</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span>) <span style="color:#f92672">&lt;=</span> input.len() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> chunk <span style="color:#f92672">=</span> _mm256_loadu_si256(input.as_ptr().offset(i <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">isize</span>) <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> _);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> _mm256_adds_epi8(chunk, val_256);
+</span></span><span style="display:flex;"><span>        _mm256_storeu_si256(output.as_mut_ptr().offset(i <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">isize</span>) <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> _, res);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">32</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> output
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Let&rsquo;s break this down.</p>
 <p>The <samp style="background-color: #3f434a">#[cfg]</samp> attribute lets us only compile this function on <samp style="background-color: #3f434a">x86/x86_64</samp>, and
 the <samp style="background-color: #3f434a">#[target_feature]</samp> attribute lets us enable the <samp style="background-color: #3f434a">avx2</samp> feature only for this function.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[cfg(any(target_arch = </span><span style="color:#e6db74">&#34;x86&#34;</span><span style="color:#75715e">, target_arch = </span><span style="color:#e6db74">&#34;x86_64&#34;</span><span style="color:#75715e">))]</span>
-<span style="color:#75715e">#[target_feature(enable = </span><span style="color:#e6db74">&#34;avx2&#34;</span><span style="color:#75715e">)]</span>
-</code></pre></div><p>Here we use the relevant <a href="https://doc.rust-lang.org/core/arch/index.html#" target="_blank" rel="noreferrer">arch</a> module
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#[cfg(any(target_arch = </span><span style="color:#e6db74">&#34;x86&#34;</span><span style="color:#75715e">, target_arch = </span><span style="color:#e6db74">&#34;x86_64&#34;</span><span style="color:#75715e">))]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[target_feature(enable = </span><span style="color:#e6db74">&#34;avx2&#34;</span><span style="color:#75715e">)]</span>
+</span></span></code></pre></div><p>Here we use the relevant <a href="https://doc.rust-lang.org/core/arch/index.html#" target="_blank" rel="noreferrer">arch</a> module
 for our machine.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[cfg(target_arch = </span><span style="color:#e6db74">&#34;x86_64&#34;</span><span style="color:#75715e">)]</span>
-<span style="color:#66d9ef">use</span> std::arch::x86_64::<span style="color:#f92672">*</span>;
-
-<span style="color:#75715e">#[cfg(target_arch = </span><span style="color:#e6db74">&#34;x86&#34;</span><span style="color:#75715e">)]</span>
-<span style="color:#66d9ef">use</span> std::arch::x86::<span style="color:#f92672">*</span>;
-</code></pre></div><p>We create our output vector, which should be the same length as our input vector, and populate it with zeroes.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> output: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[<span style="color:#ae81ff">0</span>; input.len()];
-</code></pre></div><p>We load <samp style="background-color: #3f434a">val</samp> into all 8-bit elements of a 256-bit SIMD register using
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#[cfg(target_arch = </span><span style="color:#e6db74">&#34;x86_64&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::arch::x86_64::<span style="color:#f92672">*</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[cfg(target_arch = </span><span style="color:#e6db74">&#34;x86&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::arch::x86::<span style="color:#f92672">*</span>;
+</span></span></code></pre></div><p>We create our output vector, which should be the same length as our input vector, and populate it with zeroes.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> output: Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> vec![<span style="color:#ae81ff">0</span>; input.len()];
+</span></span></code></pre></div><p>We load <samp style="background-color: #3f434a">val</samp> into all 8-bit elements of a 256-bit SIMD register using
 <a href="https://doc.rust-lang.org/core/arch/x86_64/fn._mm256_set1_epi8.html" target="_blank" rel="noreferrer">_mm256_set1_epi8</a>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> val_256 <span style="color:#f92672">=</span> _mm256_set1_epi8(val <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">i8</span>);
-</code></pre></div><p>Since we are using 256-bit SIMD registers, we can iterate through our input vector 32 bytes at a time, keeping
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> val_256 <span style="color:#f92672">=</span> _mm256_set1_epi8(val <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">i8</span>);
+</span></span></code></pre></div><p>Since we are using 256-bit SIMD registers, we can iterate through our input vector 32 bytes at a time, keeping
 track of our current position within the vector with a counter variable, <samp style="background-color: #3f434a">i</samp>.</p>
 <p>Each iteration, we load the next 32 bytes of <samp style="background-color: #3f434a">input</samp> into a 256-bit SIMD register using
 <a href="https://doc.rust-lang.org/core/arch/x86_64/fn._mm256_loadu_si256.html" target="_blank" rel="noreferrer">_mm256_loadu_si256</a>,
 which takes in a pointer to the address of the data.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> chunk <span style="color:#f92672">=</span> _mm256_loadu_si256(input.as_ptr().offset(i <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">isize</span>) <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> _);
-</code></pre></div><p>Then, we add our two SIMD registers together with a single instruction using
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> chunk <span style="color:#f92672">=</span> _mm256_loadu_si256(input.as_ptr().offset(i <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">isize</span>) <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> _);
+</span></span></code></pre></div><p>Then, we add our two SIMD registers together with a single instruction using
 <a href="https://doc.rust-lang.org/core/arch/x86_64/fn._mm256_adds_epi8.html" target="_blank" rel="noreferrer">_mm256_adds_epi8</a>.
 We are adding using saturation here, which means that the result will be clamped to fit within an 8-bit integer.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> _mm256_adds_epi8(chunk, val_256);
-</code></pre></div><p>Finally, we store the result using
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> _mm256_adds_epi8(chunk, val_256);
+</span></span></code></pre></div><p>Finally, we store the result using
 <a href="https://doc.rust-lang.org/core/arch/x86_64/fn._mm256_storeu_si256.html" target="_blank" rel="noreferrer">_mm256_storeu_si256</a>,
 which takes in a pointer to the address of where we want to store the data, and the SIMD register containing the data
 we want to store.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">_mm256_storeu_si256(output.as_mut_ptr().offset(i <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">isize</span>) <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> _, res);
-</code></pre></div><p>Once we&rsquo;ve iterated through the entire input vector, we should have added <samp style="background-color: #3f434a">val</samp> to each of its
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>_mm256_storeu_si256(output.as_mut_ptr().offset(i <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">isize</span>) <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> _, res);
+</span></span></code></pre></div><p>Once we&rsquo;ve iterated through the entire input vector, we should have added <samp style="background-color: #3f434a">val</samp> to each of its
 elements, and produced the correct output vector!</p>
 <h3 class="subtitle is-3 has-text-grey-light">Benchmarks</h3>
 <p>So how do these two functions actually compare? Let&rsquo;s use
 <a href="https://github.com/bheisler/criterion.rs" target="_blank" rel="noreferrer">criterion</a> to compare the performance
 of the two functions across a range of image sizes.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">bench_add</span>(c: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Criterion) {
-    <span style="color:#66d9ef">static</span> KB: <span style="color:#66d9ef">usize</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1024</span>;
-
-    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> group <span style="color:#f92672">=</span> c.benchmark_group(<span style="color:#e6db74">&#34;Add 10&#34;</span>);
-    <span style="color:#66d9ef">for</span> size <span style="color:#66d9ef">in</span> [KB, <span style="color:#ae81ff">16</span> <span style="color:#f92672">*</span> KB, <span style="color:#ae81ff">32</span> <span style="color:#f92672">*</span> KB, <span style="color:#ae81ff">64</span> <span style="color:#f92672">*</span> KB, <span style="color:#ae81ff">128</span> <span style="color:#f92672">*</span> KB].iter() {
-        group.throughput(Throughput::Bytes(<span style="color:#f92672">*</span>size <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u64</span>));
-        group.bench_with_input(BenchmarkId::new(<span style="color:#e6db74">&#34;No SIMD&#34;</span>, size), size, <span style="color:#f92672">|</span>b, <span style="color:#f92672">&amp;</span>size<span style="color:#f92672">|</span> {
-            b.iter(<span style="color:#f92672">||</span> add(<span style="color:#f92672">&amp;</span>vec<span style="color:#f92672">!</span>[<span style="color:#ae81ff">10</span>; size], <span style="color:#ae81ff">10</span>))
-        });
-        group.bench_with_input(BenchmarkId::new(<span style="color:#e6db74">&#34;SIMD&#34;</span>, size), size, <span style="color:#f92672">|</span>b, <span style="color:#f92672">&amp;</span>size<span style="color:#f92672">|</span> {
-            b.iter(<span style="color:#f92672">||</span> <span style="color:#66d9ef">unsafe</span> { add_256(<span style="color:#f92672">&amp;</span>vec<span style="color:#f92672">!</span>[<span style="color:#ae81ff">10</span>; size], <span style="color:#ae81ff">10</span>) })
-        });
-    }
-}
-</code></pre></div><!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">bench_add</span>(c: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Criterion) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> KB: <span style="color:#66d9ef">usize</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1024</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> group <span style="color:#f92672">=</span> c.benchmark_group(<span style="color:#e6db74">&#34;Add 10&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> size <span style="color:#66d9ef">in</span> [KB, <span style="color:#ae81ff">16</span> <span style="color:#f92672">*</span> KB, <span style="color:#ae81ff">32</span> <span style="color:#f92672">*</span> KB, <span style="color:#ae81ff">64</span> <span style="color:#f92672">*</span> KB, <span style="color:#ae81ff">128</span> <span style="color:#f92672">*</span> KB].iter() {
+</span></span><span style="display:flex;"><span>        group.throughput(Throughput::Bytes(<span style="color:#f92672">*</span>size <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u64</span>));
+</span></span><span style="display:flex;"><span>        group.bench_with_input(BenchmarkId::new(<span style="color:#e6db74">&#34;No SIMD&#34;</span>, size), size, <span style="color:#f92672">|</span>b, <span style="color:#f92672">&amp;</span>size<span style="color:#f92672">|</span> {
+</span></span><span style="display:flex;"><span>            b.iter(<span style="color:#f92672">||</span> add(<span style="color:#f92672">&amp;</span>vec![<span style="color:#ae81ff">10</span>; size], <span style="color:#ae81ff">10</span>))
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>        group.bench_with_input(BenchmarkId::new(<span style="color:#e6db74">&#34;SIMD&#34;</span>, size), size, <span style="color:#f92672">|</span>b, <span style="color:#f92672">&amp;</span>size<span style="color:#f92672">|</span> {
+</span></span><span style="display:flex;"><span>            b.iter(<span style="color:#f92672">||</span> <span style="color:#66d9ef">unsafe</span> { add_256(<span style="color:#f92672">&amp;</span>vec![<span style="color:#ae81ff">10</span>; size], <span style="color:#ae81ff">10</span>) })
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
 <h4 class="subtitle is-4 has-text-grey-light">Speed</h4>
 <table>
@@ -293,15 +293,15 @@ except for the highest bit. Since this value is in two&rsquo;s complement form, 
 bit, the value we pass it should be negative. It turns out that the correct value can be represented as
 <samp style="background-color: #3f434a">-80000000</samp> in hex. We&rsquo;ll use this value to generate a mask for all the pixels in the
 256-bit register:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> mask <span style="color:#f92672">=</span> _mm256_set1_epi32(<span style="color:#f92672">-</span><span style="color:#ae81ff">0x80000000</span>);
-</code></pre></div><p>Then, we need two registers to &ldquo;blend&rdquo;. We&rsquo;ll use the <samp style="background-color: #3f434a">val_256</samp> register we previously created, and
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> mask <span style="color:#f92672">=</span> _mm256_set1_epi32(<span style="color:#f92672">-</span><span style="color:#ae81ff">0x80000000</span>);
+</span></span></code></pre></div><p>Then, we need two registers to &ldquo;blend&rdquo;. We&rsquo;ll use the <samp style="background-color: #3f434a">val_256</samp> register we previously created, and
 another register full of zeroes, which we can create with the following:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> zeroes_256 <span style="color:#f92672">=</span> _mm256_setzero_si256();
-</code></pre></div><p>Finally, we create the desired masked register:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> val_masked <span style="color:#f92672">=</span> _mm256_blendv_epi8(zeroes_256, val_256, mask);
-</code></pre></div><p>And instead of adding <samp style="background-color: #3f434a">val_256</samp> to each 32-byte chunk of our input vector, we now add our masked register:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> _mm256_adds_epi8(chunk, val_masked);
-</code></pre></div><p>Voila! Now, we have an optimized way to increase the brightness on both non-alpha and alpha images.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> zeroes_256 <span style="color:#f92672">=</span> _mm256_setzero_si256();
+</span></span></code></pre></div><p>Finally, we create the desired masked register:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> val_masked <span style="color:#f92672">=</span> _mm256_blendv_epi8(zeroes_256, val_256, mask);
+</span></span></code></pre></div><p>And instead of adding <samp style="background-color: #3f434a">val_256</samp> to each 32-byte chunk of our input vector, we now add our masked register:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> _mm256_adds_epi8(chunk, val_masked);
+</span></span></code></pre></div><p>Voila! Now, we have an optimized way to increase the brightness on both non-alpha and alpha images.</p>
 <h3 class="subtitle is-3 has-text-grey-light">Implementation Notes</h3>
 <h4 class="subtitle is-4 has-text-grey-light">1. Calling functions that use SIMD intrinsics</h4>
 <p>One disadvantage of using SIMD intrinsics is that they are platform-specific. If you are writing functions that
@@ -310,26 +310,26 @@ accomplished using the <samp style="background-color: #3f434a">is_x86_feature_de
 is supported at runtime. This way, the function will work on any machine, but will use our optimized version
 wherever it is supported.</p>
 <p>In our case, we can use our initial <samp style="background-color: #3f434a">add</samp> implementation as our fallback function.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">add_fn</span>(input: <span style="color:#66d9ef">&amp;</span>Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span>, val: <span style="color:#66d9ef">u8</span>) -&gt; Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span> {
-    <span style="color:#75715e">#[cfg(any(target_arch = </span><span style="color:#e6db74">&#34;x86&#34;</span><span style="color:#75715e">, target_arch = </span><span style="color:#e6db74">&#34;x86_64&#34;</span><span style="color:#75715e">))]</span>
-    {
-        <span style="color:#66d9ef">if</span> is_x86_feature_detected<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;avx2&#34;</span>) {
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">unsafe</span> { add_256(input, val) }
-        }
-    }
-
-    <span style="color:#75715e">// Fallback function
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> add(input, val) 
-}
-</code></pre></div><h4 class="subtitle is-4 has-text-grey-light">2. Leftover data</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">add_fn</span>(input: <span style="color:#66d9ef">&amp;</span>Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span>, val: <span style="color:#66d9ef">u8</span>) -&gt; Vec<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u8</span><span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[cfg(any(target_arch = </span><span style="color:#e6db74">&#34;x86&#34;</span><span style="color:#75715e">, target_arch = </span><span style="color:#e6db74">&#34;x86_64&#34;</span><span style="color:#75715e">))]</span>
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> is_x86_feature_detected!(<span style="color:#e6db74">&#34;avx2&#34;</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">unsafe</span> { add_256(input, val) }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Fallback function
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> add(input, val) 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 class="subtitle is-4 has-text-grey-light">2. Leftover data</h4>
 <p>Not all images will be perfectly divisible by 32 bytes. If there are any bytes left over at the end, we can simply
 process them sequentially, as there will be no more than 31 bytes to process.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">if</span> i <span style="color:#f92672">&gt;</span> input.len() {
-    <span style="color:#66d9ef">for</span> j <span style="color:#66d9ef">in</span> (i <span style="color:#f92672">-</span> <span style="color:#ae81ff">32</span>)..input.len() {
-        output[j] <span style="color:#f92672">=</span> input[j].saturating_add(val);
-    }
-}
-</code></pre></div><p>I hope you found this helpful, and thanks for reading!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> i <span style="color:#f92672">&gt;</span> input.len() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> j <span style="color:#66d9ef">in</span> (i <span style="color:#f92672">-</span> <span style="color:#ae81ff">32</span>)<span style="color:#f92672">..</span>input.len() {
+</span></span><span style="display:flex;"><span>        output[j] <span style="color:#f92672">=</span> input[j].saturating_add(val);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>I hope you found this helpful, and thanks for reading!</p>
 <h3 class="subtitle is-3 has-text-grey-light">Additional resources</h3>
 <ul>
 <li><a href="https://github.com/tiffany1618/imgproc-rs/blob/main/src/simd.rs" target="_blank" rel="noreferrer">SIMD module</a> from
