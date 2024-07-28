@@ -22,7 +22,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://tchieu.com/books/</guid>
-      <description>Non-fiction The Idea Factory, by Jon Gertner In Search of Schrodinger&#39;s Cat, by John Gribbin A Brief History of Time, by Stephen Hawking Crystal Fire, by Michael Riordan and Lillian Hoddeson The Soul of a New Machine, by Tracy Kidder Dark Sun, by Richard Rhodes    Fiction The Hitchhiker&#39;s Guide to the Galaxy, by Douglas Adams Ender&#39;s Game, by Orson Scott Card All the Light We Cannot See, by Anthony Doerr Les Miserables, by Victor Hugo Flowers for Algernon, by Daniel Keyes The Art of Racing in the Rain, by Garth Stein The Martian, by Andy Weir The War of the Worlds, by H.</description>
+      <description>Non-fiction The Idea Factory, by Jon Gertner In Search of Schrodinger&#39;s Cat, by John Gribbin A Brief History of Time, by Stephen Hawking Crystal Fire, by Michael Riordan and Lillian Hoddeson The Soul of a New Machine, by Tracy Kidder Dark Sun, by Richard Rhodes Fiction The Hitchhiker&#39;s Guide to the Galaxy, by Douglas Adams Ender&#39;s Game, by Orson Scott Card All the Light We Cannot See, by Anthony Doerr Les Miserables, by Victor Hugo Flowers for Algernon, by Daniel Keyes The Art of Racing in the Rain, by Garth Stein The Martian, by Andy Weir The War of the Worlds, by H.</description>
     </item>
     
     <item>
@@ -31,7 +31,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://tchieu.com/projects/imgproc/</guid>
-      <description>Repository  Crates.io  Documentation       This image processing library provides a flexible container for storing and manipulating different image formats and channel data types, and supports the following types of image operations:  Color space conversions between sRGB, HSV, CIE XYZ, and CIELAB Brightness, contrast, and saturation adjustments Gamma correction and histogram equalization Linear filtering through convolution Nonlinear filters such as the median, bilateral, and alpha-trimmed mean filters Basic affine transformations Morphological operations   In addition, this library supports:   Multithreading for some transformation functions and most filter functions via rayon SIMD functions using AVX2   To learn more, check out the links above!</description>
+      <description>Repository Crates.io Documentation This image processing library provides a flexible container for storing and manipulating different image formats and channel data types, and supports the following types of image operations: Color space conversions between sRGB, HSV, CIE XYZ, and CIELAB Brightness, contrast, and saturation adjustments Gamma correction and histogram equalization Linear filtering through convolution Nonlinear filters such as the median, bilateral, and alpha-trimmed mean filters Basic affine transformations Morphological operations In addition, this library supports: Multithreading for some transformation functions and most filter functions via rayon SIMD functions using AVX2 To learn more, check out the links above!</description>
     </item>
     
     <item>
@@ -40,7 +40,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://tchieu.com/projects/space-invaders/</guid>
-      <description>Repository       For this project, I implemented a version of the arcade game Space Invaders in Verilog using a Nexys3 Spartan 6 FPGA board. The game consists of:  A player, which can be moved left and right across the bottom of the screen A laser, which can be shot upwards from the player&#39;s laser base A 5x11 grid of invaders that continuously moves left and right across the middle of the screen 3 missiles, which the invaders somewhat randomly shoot down towards the player  Initial game state</description>
+      <description>Repository For this project, I implemented a version of the arcade game Space Invaders in Verilog using a Nexys3 Spartan 6 FPGA board. The game consists of: A player, which can be moved left and right across the bottom of the screen A laser, which can be shot upwards from the player&#39;s laser base A 5x11 grid of invaders that continuously moves left and right across the middle of the screen 3 missiles, which the invaders somewhat randomly shoot down towards the player Initial game state</description>
     </item>
     
     <item>
@@ -60,7 +60,7 @@
       <guid>https://tchieu.com/projects/vulcanet/</guid>
       <description>Created by: Tiffany Chieu, Nashir Janmohamed, Justin Lin, and Ariel Young
 Awards: Best IoT that Incorporates Multiple Nodes, San Diego Hackathon 2019
-Repository  Devpost       The goal of this project is to provide a reliable, low-cost early detection system for wildfires.</description>
+Repository Devpost The goal of this project is to provide a reliable, low-cost early detection system for wildfires.</description>
     </item>
     
   </channel>
